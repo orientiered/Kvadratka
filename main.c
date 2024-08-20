@@ -3,16 +3,18 @@
 #include <stdlib.h>
 
 #define EPSILON 1e-10 //constant for comparing floats
+#define EXIT_BAD_INPUT 1 //exit when input can't be parsed correctly
 
 void printKvadr(double a, double b, double c); //output equation in nice format
+double fixMinusZero(double num); //fix -0
 
-typedef struct{
+typedef struct solution{
     int code = 0; //exit code, =number of found roots
     double x1 = 0;
     double x2 = 0;
-} kvadrAnswer;
+} solution_t;
 
-kvadrAnswer solve(double a, double b, double c); //solves equation, prints some comments and returns struct with answers
+solution_t solve(double a, double b, double c); //solves equation, prints some comments and returns struct with answers
 
 
 int main(int argc, char *argv[]) {
@@ -26,13 +28,13 @@ int main(int argc, char *argv[]) {
         c = atof(*++argv);
     } else if (scanf("%lf %lf %lf", &a, &b, &c) != 3) { //getting input from user
         printf("Wrong input format\n");
-        exit(1);
+        exit(EXIT_BAD_INPUT);
     }
 
     printKvadr(a, b, c);
-    kvadrAnswer result = solve(a, b, c);
-    if (result.code == 1) printf("x = %g\n", result.x1);
-    else if (result.code == 2) printf("x1 = %g\nx2 = %g\n", result.x1, result.x2);
+    solution_t result = solve(a, b, c);
+    if (result.code == 1) printf("x = %lg\n", fixMinusZero(result.x1));
+    else if (result.code == 2) printf("x1 = %lg\nx2 = %lg\n", fixMinusZero(result.x1), fixMinusZero(result.x2));
 
     return 0;
 }
@@ -53,12 +55,16 @@ void printKvadr(double a, double b, double c) {
         printedBefore = 1;
     }
 
-    if (printedBefore) printf((c < 0) ? "- %g = 0\n" : "+ %g = 0\n", fabs(c));
-    else  printf("%g = 0\n", c);
+    if (!(printedBefore && fabs(c) < EPSILON)) { //x + 0 <=> x
+        if (printedBefore) printf((c < 0) ? "- %g " : "+ %g ", fabs(c));
+        else printf("%g", c);
+    }
+    printf("= 0\n");
+
 }
 
-kvadrAnswer solve(double a, double b, double c) {
-    kvadrAnswer result;
+solution_t solve(double a, double b, double c) {
+    solution_t result;
 
     if (fabs(a) < EPSILON) { //checking for zeros in coefficients; we divide only by a, so this check is essential
         //printf("Linear equation detected\n");
@@ -87,4 +93,8 @@ kvadrAnswer solve(double a, double b, double c) {
         }
     }
     return result;
+}
+
+double fixMinusZero(double num) {
+    return (fabs(num) < EPSILON) ? fabs(num) : num;
 }
