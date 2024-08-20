@@ -55,7 +55,7 @@ typedef struct quadraticEquation {
     Example: 0 1 -5
     => x - 5 = 0
 */
-void printKvadr(quadraticEquation_t* equation);
+void printKvadr(const quadraticEquation_t* equation);
 
 
 
@@ -101,7 +101,7 @@ int scanCoefficients(quadraticEquation_t* equation, int argc, char *argv[]);
 
     @param[in] equation Pointer to struct that holds coeffs and answers
 */
-void printAnswer(quadraticEquation_t* equation);
+void printAnswer(const quadraticEquation_t* equation);
 
 
 
@@ -135,18 +135,19 @@ int scanCoefficients(quadraticEquation_t* equation, int argc, char *argv[]) {
         const int MAXLEN = 1000;
         char str[MAXLEN] = "";
         ++argv;
-        while (strlen(str) + strlen(*argv) < MAXLEN && --argc) {
+        while (--argc) {
+            if (strlen(str) + strlen(*argv) >= MAXLEN) {
+                printf("Buffer size exception\n");
+                return 0;
+            }
             strcat(str, *argv++);
             strcat(str, " ");
         }
-        if (argc > 0) {
-            printf("Buffer size exception\n");
+        if (sscanf(str, "%lf %lf %lf", &(equation->a), &(equation->b), &(equation->c)) != 3) {
+            printf("Wrong input, try again\n");
             return 0;
         }
-        if (sscanf(str, "%lf %lf %lf", &(equation->a), &(equation->b), &(equation->c)) != 3)
-            printf("Wrong input, try again\n");
         else return 1;
-
     } else {
         int remainingTries = 3;
         while (remainingTries--) {
@@ -154,7 +155,7 @@ int scanCoefficients(quadraticEquation_t* equation, int argc, char *argv[]) {
                 int c = 0;
                 while ((c = getchar()) != '\n' && c != '\0');
                 ungetc(c, stdin);
-                printf("Wrong input, you can try again %d times\n", remainingTries);
+                if (remainingTries) printf("Wrong input, you can try again %d times\n", remainingTries);
             } else return 1;
         }
         return 0;
@@ -163,7 +164,7 @@ int scanCoefficients(quadraticEquation_t* equation, int argc, char *argv[]) {
 }
 
 
-void printKvadr(quadraticEquation_t* equation) {
+void printKvadr(const quadraticEquation_t* equation) {
     assert(equation != NULL);
 
     int printedBefore = 0; //remembering if we printed something to put signs correctly
@@ -196,7 +197,7 @@ void printKvadr(quadraticEquation_t* equation) {
 }
 
 
-void printAnswer(quadraticEquation_t* equation) {
+void printAnswer(const quadraticEquation_t* equation) {
     assert(equation != NULL);
 
     switch(equation->answer.code) {
