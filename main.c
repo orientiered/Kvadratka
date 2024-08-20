@@ -1,3 +1,6 @@
+///@file
+///Program for solving quadratic equation
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -6,31 +9,68 @@
 #define EPSILON 1e-10 //constant for comparing floats
 #define EXIT_BAD_INPUT 1 //exit when input can't be parsed correctly
 
-void printKvadr(double a, double b, double c); //output equation in nice format
+/*!
+    @brief Prints quadratic equation in nice format
 
+    @param[in] a First coefficient
+    @param[in] b Second coefficient
+    @param[in] c Third coefficient
+
+    @return Nothing
+
+    Skips zero-coefs, and doesn't print 1
+    Example: 0 1 -5
+    => x - 5 = 0
+*/
+void printKvadr(double a, double b, double c);
+
+
+/*!
+    @brief Fixes -0
+
+    @param[in] num Number to fix
+
+    @return Fixed number
+*/
 double fixMinusZero(double num); //fix -0
 
-enum solutionCode { // exit codes in solution struct
-    ZERO_ROOTS,
-    ONE_ROOT,
-    TWO_ROOTS,
-    INF_ROOTS,
-    BLANK_ROOT = -1
+
+/// @brief Exit codes used in solution_t struct
+/// @see solution
+enum solutionCode {
+    ZERO_ROOTS,         ///< 0 roots
+    ONE_ROOT,           ///< 1 root
+    TWO_ROOTS,          ///< 2 roots
+    INF_ROOTS,          ///< infinity roots, 0 = 0
+    BLANK_ROOT = -1     ///< This code is used when solution_t is initialized
 };
 
+
+/*!
+    \brief Struct that stores solutions
+*/
 typedef struct solution{
-    enum solutionCode code; //exit code, =number of found roots
-    double x1;
-    double x2;
+    enum solutionCode code; ///< enum with exit codes; in basic cases = number of roots
+    double x1;              ///< first root
+    double x2;              ///< second root
 } solution_t;
-
-
 
 
 const solution_t BLANK_SOLUTION = {BLANK_ROOT, NAN, NAN};
 
-
-solution_t solve(double a, double b, double c); //solves equation, prints some comments and returns struct with answers
+/*!
+ *  @brief solves equation, prints some comments and returns struct with answers
+ *
+ *  @param[in] a first coefficient
+ *  @param[in] b second coefficient
+ *  @param[in] c third coefficient
+ *
+ *  @returns solution_t struct with roots and exit code
+ *
+ *  Solves quadratic equation in form ax^2 + bx + c = 0
+ *  Prints comments, if there aren't any roots. Also fixes -0 in answer
+*/
+solution_t solveQuadratic(double a, double b, double c);
 
 
 int main(int argc, char *argv[]) {
@@ -51,7 +91,7 @@ int main(int argc, char *argv[]) {
     }
 
     printKvadr(a, b, c);
-    solution_t result = solve(a, b, c);
+    solution_t result = solveQuadratic(a, b, c);
 
     switch(result.code) {
         case BLANK_ROOT:
@@ -71,19 +111,20 @@ int main(int argc, char *argv[]) {
         default:
             printf("That's really bad :(\n");
             break;
-
     }
     return 0;
 }
 
 void printKvadr(double a, double b, double c) {
     int printedBefore = 0; //remembering if we printed something to put signs correctly
+
     if (fabs(a) > EPSILON) { //if not zero
         if (a < 0) printf("-"); //sign
         if (fabs(fabs(a)-1) > EPSILON) printf("%g", fabs(a)); //1x^2 is the same as x^2
         printf("x^2 ");
         printedBefore = 1;
     }
+
     if (fabs(b) > EPSILON) {
         if (printedBefore) printf((b < 0) ? "- " : "+ ");
         if (fabs(fabs(b)-1) > EPSILON) printf("%g", printedBefore ? fabs(b) : b);
@@ -100,13 +141,13 @@ void printKvadr(double a, double b, double c) {
 
 }
 
-solution_t solve(double a, double b, double c) {
+solution_t solveQuadratic(double a, double b, double c) {
 
-    assert(std::isfinite(a)); //checking input for NaNs
-    assert(std::isfinite(b));
-    assert(std::isfinite(c));
+    assert(isfinite(a)); //checking input for NaNs
+    assert(isfinite(b));
+    assert(isfinite(c));
 
-    solution_t result = BLANK_SOLUTION;//={};
+    solution_t result = BLANK_SOLUTION;
 
     if (fabs(a) < EPSILON) { //checking for zeros in coefficients; we divide only by a, so this check is essential
         //a = 0
