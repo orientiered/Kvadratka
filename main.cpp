@@ -104,6 +104,10 @@ int scanCoefficients(quadraticEquation_t* equation, int argc, char *argv[]);
 void printAnswer(const quadraticEquation_t* equation);
 
 
+/*!
+
+*/
+void flushScanfBuffer();
 
 int main(int argc, char *argv[]) {
     printf("# Quadratic equation solver\n# orientiered 2024\n");
@@ -128,41 +132,53 @@ int scanCoefficients(quadraticEquation_t* equation, int argc, char *argv[]) {
     assert(equation);
     assert(argv);
 
-    if (argc != 4)
-        printf("Enter coefficients of equation ax^2 + bx + c = 0\n");
-    ///TODO: sscanf with cmd args
+
     if (argc == 4) { //getting input from cmd args
-        const int MAXLEN = 1000;
-        char str[MAXLEN] = "";
-        ++argv;
-        while (--argc) {
-            if (strlen(str) + strlen(*argv) >= MAXLEN) {
-                printf("Buffer size exception\n");
-                return 0;
-            }
-            strcat(str, *argv++);
-            strcat(str, " ");
-        }
-        if (sscanf(str, "%lf %lf %lf", &(equation->a), &(equation->b), &(equation->c)) != 3) {
-            printf("Wrong input, try again\n");
+        if (sscanf(*++argv, "%lf", &(equation->a)) != 1) {
+            printf("Can't read first coefficient\n");
             return 0;
         }
-        else return 1;
-    } else {
-        int remainingTries = 3;
-        while (remainingTries--) {
-            if (scanf("%lf %lf %lf", &(equation->a), &(equation->b), &(equation->c)) != 3) {
-                int c = 0;
-                while ((c = getchar()) != '\n' && c != '\0');
-                ungetc(c, stdin);
-                if (remainingTries) printf("Wrong input, you can try again %d times\n", remainingTries);
-            } else return 1;
+        if (sscanf(*++argv, "%lf", &(equation->b)) != 1) {
+            printf("Can't read second coefficient\n");
+            return 0;
         }
+        if (sscanf(*++argv, "%lf", &(equation->c)) != 1) {
+            printf("Can't read third coefficient\n");
+            return 0;
+        }
+        return 1;
+    } else {
+        printf("Enter coefficients of equation ax^2 + bx + c = 0\n");
+        double *coeffsArray[] = {&(equation->a), &(equation->b), &(equation->c)};
+        int index = 0;
+        int remainingTries = 3;
+
+        for (; index < 3 && remainingTries > 0; ) {
+            if (scanf("%lf", coeffsArray[index]) != 1) {
+                printf("Wrong input format\n");
+                index = 0; remainingTries--;
+                flushScanfBuffer();
+            } else {
+                int c = 0;
+                if (!isspace(c = getchar())) {
+                    ungetc((c == EOF) ? 0: c, stdin);
+                    printf("Wrong input format\n");
+                    index = 0;
+                    flushScanfBuffer();
+                } else index++;
+            }
+        }
+        if (index == 3) return 1;
         return 0;
     }
     return 1;
 }
 
+void flushScanfBuffer() {
+    int c = 0;
+    while ((c = getchar()) != '\n' && c != '\0' && c != EOF);
+    ungetc( (c == EOF) ? '\0' : c, stdin);
+}
 
 void printKvadr(const quadraticEquation_t* equation) {
     assert(equation != NULL);
