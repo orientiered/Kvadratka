@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['code_0',['code',['../structsolution.html#a5cf074b4957de90f3c7f7f1f265e8213',1,'solution']]]
+  ['b_0',['b',['../structquadratic_equation.html#a94e0e262742ef8f8a9257bc19499b7f2',1,'quadraticEquation']]],
+  ['blank_5fsolution_1',['BLANK_SOLUTION',['../main_8c.html#a70108dfaa40e114526044c55f3abde29',1,'main.c']]]
 ];

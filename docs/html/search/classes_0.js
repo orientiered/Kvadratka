@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['solution_0',['solution',['../structsolution.html',1,'']]]
+  ['quadraticequation_0',['quadraticEquation',['../structquadratic_equation.html',1,'']]]
 ];

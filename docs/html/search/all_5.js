@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['main_0',['main',['../main_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main.c']]],
-  ['main_2ec_1',['main.c',['../main_8c.html',1,'']]]
+  ['inf_5froots_0',['INF_ROOTS',['../main_8c.html#a97d6368ca6d371ef5fa53338cdd1b433a5a79e9e49077da58fe5d46a98f0b5e36',1,'main.c']]]
 ];

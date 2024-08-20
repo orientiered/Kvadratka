@@ -6,33 +6,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#define EPSILON 1e-10 //constant for comparing floats
+const double EPSILON = 1e-10; //constant for comparing floats
 #define EXIT_BAD_INPUT 1 //exit when input can't be parsed correctly
-
-/*!
-    @brief Prints quadratic equation in nice format
-
-    @param[in] a First coefficient
-    @param[in] b Second coefficient
-    @param[in] c Third coefficient
-
-    @return Nothing
-
-    Skips zero-coefs, and doesn't print 1
-    Example: 0 1 -5
-    => x - 5 = 0
-*/
-void printKvadr(double a, double b, double c);
-
-
-/*!
-    @brief Fixes -0
-
-    @param[in] num Number to fix
-
-    @return Fixed number
-*/
-double fixMinusZero(double num); //fix -0
 
 
 /// @brief Exit codes used in solution_t struct
@@ -46,6 +21,7 @@ enum solutionCode {
 };
 
 
+
 /*!
     \brief Struct that stores solutions
 */
@@ -55,68 +31,122 @@ typedef struct solution{
     double x2;              ///< second root
 } solution_t;
 
-
 const solution_t BLANK_SOLUTION = {BLANK_ROOT, NAN, NAN};
+
+
+/// @brief Struct that stores coeffs and answers of quadratic equation
+typedef struct quadraticEquation {
+    double a, b, c;     //< Coefficients of quadratic polynomial
+    solution_t answer;  //< structure with exit code and answers
+} quadraticEquation_t;
+
+
+
+/*!
+    @brief Prints quadratic equation in nice format
+
+    @param[in] equation Pointer to struct with coeffs
+
+    @return Nothing
+
+    Skips zero-coefs, and doesn't print 1
+    Example: 0 1 -5
+    => x - 5 = 0
+*/
+void printKvadr(quadraticEquation_t* equation);
+
+
+
+/*!
+    @brief Fixes -0
+
+    @param[in] num Number to fix
+
+    @return Fixed number
+*/
+double fixMinusZero(double num); //fix -0
+
+
 
 /*!
  *  @brief solves equation, prints some comments and returns struct with answers
  *
- *  @param[in] a first coefficient
- *  @param[in] b second coefficient
- *  @param[in] c third coefficient
+ *  @param[in, out] equation Pointer to struct that holds coeffs and answers
  *
- *  @returns solution_t struct with roots and exit code
+ *  @returns solution_t pointer to struct with roots and exit code
  *
  *  Solves quadratic equation in form ax^2 + bx + c = 0
  *  Prints comments, if there aren't any roots. Also fixes -0 in answer
 */
-solution_t solveQuadratic(double a, double b, double c);
+quadraticEquation_t* solveQuadratic(quadraticEquation_t* equation);
+
+
+
+/*!
+    @brief Scans coeffs of quadratic eqaution from cmd args (if possible) or from console input
+
+    @param[in, out] equation Pointer to struct that holds coeffs and answers
+    @param[in] argc Number of cmd arguments
+    @param[in] argv Cmd arguments
+
+    @return 0 if problem occured, 1 if input is readed correctly
+*/
+int scanCoefficients(quadraticEquation_t* equation, int argc, char *argv[]);
+
+
+/*!
+    @brief Prints roots of solved equation
+
+    @param[in] equation Pointer to struct that holds coeffs and answers
+*/
+void printAnswer(quadraticEquation_t* equation);
+
 
 
 int main(int argc, char *argv[]) {
     printf("# Quadratic equation solver\n# orientiered 2024\n");
-    if (argc != 4)
-        printf("Enter coefficients of equation ax^2 + bx + c = 0\n");
 
-    double a, b, c;
-    a = b = c = 0;
 
-    if (argc == 4) { //getting input from cmd args
-        a = atof(*++argv);
-        b = atof(*++argv);
-        c = atof(*++argv);
-    } else if (scanf("%lf %lf %lf", &a, &b, &c) != 3) { //getting input from user
+    quadraticEquation_t equation = {NAN, NAN, NAN, BLANK_SOLUTION};
+    if (!scanCoefficients(&equation, argc, argv)) {
         printf("Wrong input format\n");
         exit(EXIT_BAD_INPUT);
     }
 
-    printKvadr(a, b, c);
-    solution_t result = solveQuadratic(a, b, c);
 
-    switch(result.code) {
-        case BLANK_ROOT:
-            printf("Something went wrong\n");
-            break;
-        case ZERO_ROOTS:
-            break;
-        case ONE_ROOT:
-            printf("x = %lg\n", result.x1);
-            break;
-        case TWO_ROOTS:
-            printf("x1 = %lg\nx2 = %lg\n", result.x1, result.x2);
-            break;
-        case INF_ROOTS:
-            printf("x is any number");
-            break;
-        default:
-            printf("That's really bad :(\n");
-            break;
-    }
+    printKvadr(&equation);
+    solveQuadratic(&equation);
+    printAnswer(&equation);
+
     return 0;
 }
 
-void printKvadr(double a, double b, double c) {
+
+int scanCoefficients(quadraticEquation_t* equation, int argc, char *argv[]) {
+    assert(equation);
+
+    if (argc != 4)
+        printf("Enter coefficients of equation ax^2 + bx + c = 0\n");
+
+    if (argc == 4) { //getting input from cmd args
+        equation->a = atof(*++argv);
+        equation->b = atof(*++argv);
+        equation->c = atof(*++argv);
+    } else if (scanf("%lf %lf %lf", &(equation->a), &(equation->b), &(equation->c)) != 3) { //getting input from user
+        return 0;
+    }
+    return 1;
+}
+
+
+void printKvadr(quadraticEquation_t* equation) {
+    assert(equation != NULL);
+
     int printedBefore = 0; //remembering if we printed something to put signs correctly
+
+    double  a = equation->a,
+            b = equation->b,
+            c = equation->c;
 
     if (fabs(a) > EPSILON) { //if not zero
         if (a < 0) printf("-"); //sign
@@ -141,47 +171,76 @@ void printKvadr(double a, double b, double c) {
 
 }
 
-solution_t solveQuadratic(double a, double b, double c) {
+
+void printAnswer(quadraticEquation_t* equation) {
+    assert(equation != NULL);
+
+    switch(equation->answer.code) {
+        case BLANK_ROOT:
+            printf("Something went wrong\n");
+            break;
+        case ZERO_ROOTS:
+            break;
+        case ONE_ROOT:
+            printf("x = %lg\n", equation->answer.x1);
+            break;
+        case TWO_ROOTS:
+            printf("x1 = %lg\nx2 = %lg\n", equation->answer.x1, equation->answer.x2);
+            break;
+        case INF_ROOTS:
+            printf("x is any number");
+            break;
+        default:
+            printf("That's really bad :(\n");
+            break;
+    }
+}
+
+
+quadraticEquation_t* solveQuadratic(quadraticEquation_t* equation) {
+    assert(equation != NULL);
+
+    double  a = equation->a,
+            b = equation->b,
+            c = equation->c;
 
     assert(isfinite(a)); //checking input for NaNs
     assert(isfinite(b));
     assert(isfinite(c));
-
-    solution_t result = BLANK_SOLUTION;
 
     if (fabs(a) < EPSILON) { //checking for zeros in coefficients; we divide only by a, so this check is essential
         //a = 0
         if (fabs(b) < EPSILON) {
             //b = 0
             if (fabs(c) < EPSILON) { // 0 = 0
-                result.code = INF_ROOTS;
+                equation->answer.code = INF_ROOTS;
             } else {
                 printf("Equation can't be solved\n");
-                result.code = ZERO_ROOTS;
+                equation->answer.code = ZERO_ROOTS;
             }
         } else {
-            result.code = ONE_ROOT;
-            result.x1 = -c/b;
+            equation->answer.code = ONE_ROOT;
+            equation->answer.x1 = -c/b;
         }
     } else {
         double D = b*b - 4*a*c; //calculating discriminant
         if (fabs(D) < EPSILON) {            //D = 0
-            result.code = ONE_ROOT;
-            result.x1 = -b / (2*a);
+            equation->answer.code = ONE_ROOT;
+            equation->answer.x1 = -b / (2*a);
         } else if (D < 0) {
-            result.code = ZERO_ROOTS;              //D < 0
+            equation->answer.code = ZERO_ROOTS;              //D < 0
             printf("Equation can't be solved in R: D = %g < 0\n", D);
         } else {                            //D > 0
-            result.code = TWO_ROOTS;
+            equation->answer.code = TWO_ROOTS;
             double D_sqrt = sqrt(D);
-            result.x1 = (-b + D_sqrt)/(2*a);
-            result.x2 = (-b - D_sqrt)/(2*a);
+            equation->answer.x1 = (-b + D_sqrt)/(2*a);
+            equation->answer.x2 = (-b - D_sqrt)/(2*a);
         }
     }
     //fix -0 case
-    result.x1 = fixMinusZero(result.x1);
-    result.x2 = fixMinusZero(result.x2);
-    return result;
+    equation->answer.x1 = fixMinusZero(equation->answer.x1);
+    equation->answer.x2 = fixMinusZero(equation->answer.x2);
+    return equation;
 }
 
 double fixMinusZero(double num) {

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['epsilon_0',['EPSILON',['../main_8c.html#a002b2f4894492820fe708b1b7e7c5e70',1,'main.c']]],
-  ['exit_5fbad_5finput_1',['EXIT_BAD_INPUT',['../main_8c.html#a869092cfd683f1b8a2a83a2cd320025a',1,'main.c']]]
+  ['c_0',['c',['../structquadratic_equation.html#aad6f2de7295ce871a1ab991b1e7b09f6',1,'quadraticEquation']]],
+  ['code_1',['code',['../structsolution.html#a5cf074b4957de90f3c7f7f1f265e8213',1,'solution']]]
 ];

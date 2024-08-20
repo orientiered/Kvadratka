@@ -8,11 +8,11 @@
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{structsolution}{solution}}
-\begin{DoxyCompactList}\small\item\em Struct that stores solutions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Struct that stores solutions. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structquadratic_equation}{quadratic\+Equation}}
+\begin{DoxyCompactList}\small\item\em Struct that stores coeffs and answers of quadratic equation. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
-\item 
-\#define \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}}~1e-\/10
 \item 
 \#define \mbox{\hyperlink{main_8c_a869092cfd683f1b8a2a83a2cd320025a}{EXIT\+\_\+\+BAD\+\_\+\+INPUT}}~1
 \end{DoxyCompactItemize}
@@ -20,7 +20,9 @@ struct \mbox{\hyperlink{structsolution}{solution}}
 \begin{DoxyCompactItemize}
 \item 
 typedef struct \mbox{\hyperlink{structsolution}{solution}} \mbox{\hyperlink{main_8c_a00f897da5ee85851a7fd245488bed0a4}{solution\+\_\+t}}
-\begin{DoxyCompactList}\small\item\em Struct that stores solutions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Struct that stores solutions. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{structquadratic_equation}{quadratic\+Equation}} \mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Struct that stores coeffs and answers of quadratic equation. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
@@ -36,16 +38,22 @@ enum \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433}{solution\+Code}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{main_8c_a0a782c5e4e03dcaa25785f69a0a86943}{print\+Kvadr}} (double a, double b, double c)
+void \mbox{\hyperlink{main_8c_ac974fd403b3441d8747e7c7068b05c0e}{print\+Kvadr}} (\mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}} \texorpdfstring{$\ast$}{*}equation)
 \begin{DoxyCompactList}\small\item\em Prints quadratic equation in nice format. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{main_8c_a0e71574e76ca5f8995a169d93db19a69}{fix\+Minus\+Zero}} (double num)
 \begin{DoxyCompactList}\small\item\em Fixes -\/0. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{main_8c_a00f897da5ee85851a7fd245488bed0a4}{solution\+\_\+t}} \mbox{\hyperlink{main_8c_af58708c715762e568b9fc4215aad4c99}{solve\+Quadratic}} (double a, double b, double c)
+\mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_aa441d1cc3a45be752698479a7f1ebdb5}{solve\+Quadratic}} (\mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}} \texorpdfstring{$\ast$}{*}equation)
 \begin{DoxyCompactList}\small\item\em solves equation, prints some comments and returns struct with answers \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8c_aa7251e2bd2c1f9518aad8328566443b7}{scan\+Coefficients}} (\mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}} \texorpdfstring{$\ast$}{*}equation, int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Scans coeffs of quadratic eqaution from cmd args (if possible) or from console input. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_aa2509f739a43ee2f0cad71a17b1bbb35}{print\+Answer}} (\mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}} \texorpdfstring{$\ast$}{*}equation)
+\begin{DoxyCompactList}\small\item\em Prints roots of solved equation. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{main_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
+\item 
+const double \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}} = 1e-\/10
 \item 
 const \mbox{\hyperlink{main_8c_a00f897da5ee85851a7fd245488bed0a4}{solution\+\_\+t}} \mbox{\hyperlink{main_8c_a70108dfaa40e114526044c55f3abde29}{BLANK\+\_\+\+SOLUTION}} = \{\mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a47dc01efaa7e3f06b9685e6e70e7c5a3}{BLANK\+\_\+\+ROOT}}, NAN, NAN\}
 \end{DoxyCompactItemize}
@@ -59,20 +67,6 @@ Definition in file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
 
 
 \doxysubsection{Macro Definition Documentation}
-\Hypertarget{main_8c_a002b2f4894492820fe708b1b7e7c5e70}\index{main.c@{main.c}!EPSILON@{EPSILON}}
-\index{EPSILON@{EPSILON}!main.c@{main.c}}
-\doxysubsubsection{\texorpdfstring{EPSILON}{EPSILON}}
-{\footnotesize\ttfamily \label{main_8c_a002b2f4894492820fe708b1b7e7c5e70} 
-\#define EPSILON~1e-\/10}
-
-
-
-Definition at line \mbox{\hyperlink{main_8c_source_l00009}{9}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
-
-
-
-Referenced by \mbox{\hyperlink{main_8c_source_l00187}{fix\+Minus\+Zero()}}, \mbox{\hyperlink{main_8c_source_l00118}{print\+Kvadr()}}, and \mbox{\hyperlink{main_8c_source_l00144}{solve\+Quadratic()}}.
-
 \Hypertarget{main_8c_a869092cfd683f1b8a2a83a2cd320025a}\index{main.c@{main.c}!EXIT\_BAD\_INPUT@{EXIT\_BAD\_INPUT}}
 \index{EXIT\_BAD\_INPUT@{EXIT\_BAD\_INPUT}!main.c@{main.c}}
 \doxysubsubsection{\texorpdfstring{EXIT\_BAD\_INPUT}{EXIT\_BAD\_INPUT}}
@@ -85,11 +79,21 @@ Definition at line \mbox{\hyperlink{main_8c_source_l00010}{10}} of file \mbox{\h
 
 
 
-Referenced by \mbox{\hyperlink{main_8c_source_l00076}{main()}}.
+Referenced by \mbox{\hyperlink{main_8c_source_l00105}{main()}}.
 
 
 
 \doxysubsection{Typedef Documentation}
+\Hypertarget{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}\index{main.c@{main.c}!quadraticEquation\_t@{quadraticEquation\_t}}
+\index{quadraticEquation\_t@{quadraticEquation\_t}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{quadraticEquation\_t}{quadraticEquation\_t}}
+{\footnotesize\ttfamily \label{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16} 
+typedef struct \mbox{\hyperlink{structquadratic_equation}{quadratic\+Equation}} \mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}}}
+
+
+
+Struct that stores coeffs and answers of quadratic equation. 
+
 \Hypertarget{main_8c_a00f897da5ee85851a7fd245488bed0a4}\index{main.c@{main.c}!solution\_t@{solution\_t}}
 \index{solution\_t@{solution\_t}!main.c@{main.c}}
 \doxysubsubsection{\texorpdfstring{solution\_t}{solution\_t}}
@@ -140,17 +144,17 @@ BLANK\+\_\+\+ROOT&This code is used when solution\+\_\+t is initialized. \\
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{main_8c_source_l00040}{40}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+Definition at line \mbox{\hyperlink{main_8c_source_l00015}{15}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a52da2ea29bc7f0697300ec26acb69715}{ZERO\_ROOTS}},\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a6700c0f6efd23571cb22aefd2510b1cf}{ONE\_ROOT}},\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a876622d3c0b008da13a3685c64714e81}{TWO\_ROOTS}},\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a5a79e9e49077da58fe5d46a98f0b5e36}{INF\_ROOTS}},\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a47dc01efaa7e3f06b9685e6e70e7c5a3}{BLANK\_ROOT}}\ =\ -\/1\ \ \ \ \ }
-\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a52da2ea29bc7f0697300ec26acb69715}{ZERO\_ROOTS}},\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a6700c0f6efd23571cb22aefd2510b1cf}{ONE\_ROOT}},\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a876622d3c0b008da13a3685c64714e81}{TWO\_ROOTS}},\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a5a79e9e49077da58fe5d46a98f0b5e36}{INF\_ROOTS}},\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a47dc01efaa7e3f06b9685e6e70e7c5a3}{BLANK\_ROOT}}\ =\ -\/1\ \ \ \ \ }
+\DoxyCodeLine{00021\ \};}
 
 \end{DoxyCode}
 
@@ -176,13 +180,13 @@ Fixed number
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{main_8c_source_l00187}{187}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+Definition at line \mbox{\hyperlink{main_8c_source_l00237}{237}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordflow}{return}\ (fabs(num)\ <\ \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}})\ ?\ fabs(num)\ :\ num;}
-\DoxyCodeLine{00189\ \}}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keywordflow}{return}\ (fabs(num)\ <\ \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}})\ ?\ fabs(num)\ :\ num;}
+\DoxyCodeLine{00239\ \}}
 
 \end{DoxyCode}
 
@@ -191,7 +195,7 @@ References \mbox{\hyperlink{main_8c_source_l00009}{EPSILON}}.
 
 
 
-Referenced by \mbox{\hyperlink{main_8c_source_l00144}{solve\+Quadratic()}}.
+Referenced by \mbox{\hyperlink{main_8c_source_l00193}{solve\+Quadratic()}}.
 
 \Hypertarget{main_8c_a0ddf1224851353fc92bfbff6f499fa97}\index{main.c@{main.c}!main@{main}}
 \index{main@{main}!main.c@{main.c}}
@@ -201,62 +205,90 @@ int main (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstr
 
 
 
-Definition at line \mbox{\hyperlink{main_8c_source_l00076}{76}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+Definition at line \mbox{\hyperlink{main_8c_source_l00105}{105}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00077\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\#\ Quadratic\ equation\ solver\(\backslash\)n\#\ orientiered\ 2024\(\backslash\)n"{}});}
-\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{if}\ (argc\ !=\ 4)}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Enter\ coefficients\ of\ equation\ ax\string^2\ +\ bx\ +\ c\ =\ 0\(\backslash\)n"{}});}
-\DoxyCodeLine{00080\ }
-\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{double}\ a,\ b,\ c;}
-\DoxyCodeLine{00082\ \ \ \ \ a\ =\ b\ =\ c\ =\ 0;}
-\DoxyCodeLine{00083\ }
-\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (argc\ ==\ 4)\ \{\ \textcolor{comment}{//getting\ input\ from\ cmd\ args}}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ a\ =\ atof(*++argv);}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ b\ =\ atof(*++argv);}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ c\ =\ atof(*++argv);}
-\DoxyCodeLine{00088\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (scanf(\textcolor{stringliteral}{"{}\%lf\ \%lf\ \%lf"{}},\ \&a,\ \&b,\ \&c)\ !=\ 3)\ \{\ \textcolor{comment}{//getting\ input\ from\ user}}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Wrong\ input\ format\(\backslash\)n"{}});}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ exit(\mbox{\hyperlink{main_8c_a869092cfd683f1b8a2a83a2cd320025a}{EXIT\_BAD\_INPUT}});}
-\DoxyCodeLine{00091\ \ \ \ \ \}}
-\DoxyCodeLine{00092\ }
-\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{main_8c_a0a782c5e4e03dcaa25785f69a0a86943}{printKvadr}}(a,\ b,\ c);}
-\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{structsolution}{solution\_t}}\ result\ =\ \mbox{\hyperlink{main_8c_af58708c715762e568b9fc4215aad4c99}{solveQuadratic}}(a,\ b,\ c);}
-\DoxyCodeLine{00095\ }
-\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{switch}(result.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}})\ \{}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a47dc01efaa7e3f06b9685e6e70e7c5a3}{BLANK\_ROOT}}:}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Something\ went\ wrong\(\backslash\)n"{}});}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a52da2ea29bc7f0697300ec26acb69715}{ZERO\_ROOTS}}:}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a6700c0f6efd23571cb22aefd2510b1cf}{ONE\_ROOT}}:}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}x\ =\ \%lg\(\backslash\)n"{}},\ result.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}});}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a876622d3c0b008da13a3685c64714e81}{TWO\_ROOTS}}:}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}x1\ =\ \%lg\(\backslash\)nx2\ =\ \%lg\(\backslash\)n"{}},\ result.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}},\ result.\mbox{\hyperlink{structsolution_a227566cab64a702caa7e8928c7da47d3}{x2}});}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a5a79e9e49077da58fe5d46a98f0b5e36}{INF\_ROOTS}}:}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}x\ is\ any\ number"{}});}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}That's\ really\ bad\ :(\(\backslash\)n"{}});}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00114\ \ \ \ \ \}}
-\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
-\DoxyCodeLine{00116\ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\#\ Quadratic\ equation\ solver\(\backslash\)n\#\ orientiered\ 2024\(\backslash\)n"{}});}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \mbox{\hyperlink{structquadratic_equation}{quadraticEquation\_t}}\ equation\ =\ \{.0,\ .0,\ .0,\ \mbox{\hyperlink{main_8c_a70108dfaa40e114526044c55f3abde29}{BLANK\_SOLUTION}}\};}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{main_8c_aa7251e2bd2c1f9518aad8328566443b7}{scanCoefficients}}(\&equation,\ argc,\ argv))\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Wrong\ input\ format\(\backslash\)n"{}});}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ exit(\mbox{\hyperlink{main_8c_a869092cfd683f1b8a2a83a2cd320025a}{EXIT\_BAD\_INPUT}});}
+\DoxyCodeLine{00113\ \ \ \ \ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{main_8c_ac974fd403b3441d8747e7c7068b05c0e}{printKvadr}}(\&equation);}
+\DoxyCodeLine{00117\ \ \ \ \ \mbox{\hyperlink{main_8c_aa441d1cc3a45be752698479a7f1ebdb5}{solveQuadratic}}(\&equation);}
+\DoxyCodeLine{00118\ \ \ \ \ \mbox{\hyperlink{main_8c_aa2509f739a43ee2f0cad71a17b1bbb35}{printAnswer}}(\&equation);}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00121\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{main_8c_source_l00045}{BLANK\+\_\+\+ROOT}}, \mbox{\hyperlink{main_8c_source_l00053}{solution\+::code}}, \mbox{\hyperlink{main_8c_source_l00010}{EXIT\+\_\+\+BAD\+\_\+\+INPUT}}, \mbox{\hyperlink{main_8c_source_l00044}{INF\+\_\+\+ROOTS}}, \mbox{\hyperlink{main_8c_source_l00042}{ONE\+\_\+\+ROOT}}, \mbox{\hyperlink{main_8c_source_l00118}{print\+Kvadr()}}, \mbox{\hyperlink{main_8c_source_l00144}{solve\+Quadratic()}}, \mbox{\hyperlink{main_8c_source_l00043}{TWO\+\_\+\+ROOTS}}, \mbox{\hyperlink{main_8c_source_l00054}{solution\+::x1}}, \mbox{\hyperlink{main_8c_source_l00055}{solution\+::x2}}, and \mbox{\hyperlink{main_8c_source_l00041}{ZERO\+\_\+\+ROOTS}}.
+References \mbox{\hyperlink{main_8c_source_l00033}{BLANK\+\_\+\+SOLUTION}}, \mbox{\hyperlink{main_8c_source_l00010}{EXIT\+\_\+\+BAD\+\_\+\+INPUT}}, \mbox{\hyperlink{main_8c_source_l00170}{print\+Answer()}}, \mbox{\hyperlink{main_8c_source_l00139}{print\+Kvadr()}}, \mbox{\hyperlink{main_8c_source_l00124}{scan\+Coefficients()}}, and \mbox{\hyperlink{main_8c_source_l00193}{solve\+Quadratic()}}.
 
-\Hypertarget{main_8c_a0a782c5e4e03dcaa25785f69a0a86943}\index{main.c@{main.c}!printKvadr@{printKvadr}}
+\Hypertarget{main_8c_aa2509f739a43ee2f0cad71a17b1bbb35}\index{main.c@{main.c}!printAnswer@{printAnswer}}
+\index{printAnswer@{printAnswer}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{printAnswer()}{printAnswer()}}
+{\footnotesize\ttfamily \label{main_8c_aa2509f739a43ee2f0cad71a17b1bbb35} 
+void print\+Answer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{equation}{}\end{DoxyParamCaption})}
+
+
+
+Prints roots of solved equation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em equation} & Pointer to struct that holds coeffs and answers \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00170}{170}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordflow}{switch}(equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}})\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a47dc01efaa7e3f06b9685e6e70e7c5a3}{BLANK\_ROOT}}:}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Something\ went\ wrong\(\backslash\)n"{}});}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a52da2ea29bc7f0697300ec26acb69715}{ZERO\_ROOTS}}:}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a6700c0f6efd23571cb22aefd2510b1cf}{ONE\_ROOT}}:}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}x\ =\ \%lg\(\backslash\)n"{}},\ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}});}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a876622d3c0b008da13a3685c64714e81}{TWO\_ROOTS}}:}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}x1\ =\ \%lg\(\backslash\)nx2\ =\ \%lg\(\backslash\)n"{}},\ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}},\ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a227566cab64a702caa7e8928c7da47d3}{x2}});}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a5a79e9e49077da58fe5d46a98f0b5e36}{INF\_ROOTS}}:}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}x\ is\ any\ number"{}});}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}That's\ really\ bad\ :(\(\backslash\)n"{}});}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00189\ \ \ \ \ \}}
+\DoxyCodeLine{00190\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00039}{quadratic\+Equation\+::answer}}, \mbox{\hyperlink{main_8c_source_l00020}{BLANK\+\_\+\+ROOT}}, \mbox{\hyperlink{main_8c_source_l00028}{solution\+::code}}, \mbox{\hyperlink{main_8c_source_l00019}{INF\+\_\+\+ROOTS}}, \mbox{\hyperlink{main_8c_source_l00017}{ONE\+\_\+\+ROOT}}, \mbox{\hyperlink{main_8c_source_l00018}{TWO\+\_\+\+ROOTS}}, \mbox{\hyperlink{main_8c_source_l00029}{solution\+::x1}}, \mbox{\hyperlink{main_8c_source_l00030}{solution\+::x2}}, and \mbox{\hyperlink{main_8c_source_l00016}{ZERO\+\_\+\+ROOTS}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00105}{main()}}.
+
+\Hypertarget{main_8c_ac974fd403b3441d8747e7c7068b05c0e}\index{main.c@{main.c}!printKvadr@{printKvadr}}
 \index{printKvadr@{printKvadr}!main.c@{main.c}}
 \doxysubsubsection{\texorpdfstring{printKvadr()}{printKvadr()}}
-{\footnotesize\ttfamily \label{main_8c_a0a782c5e4e03dcaa25785f69a0a86943} 
-void print\+Kvadr (\begin{DoxyParamCaption}\item[{double}]{a}{, }\item[{double}]{b}{, }\item[{double}]{c}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{main_8c_ac974fd403b3441d8747e7c7068b05c0e} 
+void print\+Kvadr (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{equation}{}\end{DoxyParamCaption})}
 
 
 
@@ -264,11 +296,7 @@ Prints quadratic equation in nice format.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a} & First coefficient \\
-\hline
-\mbox{\texttt{ in}}  & {\em b} & Second coefficient \\
-\hline
-\mbox{\texttt{ in}}  & {\em c} & Third coefficient\\
+\mbox{\texttt{ in}}  & {\em equation} & Pointer to struct with coeffs\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -276,50 +304,105 @@ Nothing
 \end{DoxyReturn}
 Skips zero-\/coefs, and doesn\textquotesingle{}t print 1 Example\+: 0 1 -\/5 =\texorpdfstring{$>$}{>} x -\/ 5 = 0 
 
-Definition at line \mbox{\hyperlink{main_8c_source_l00118}{118}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+Definition at line \mbox{\hyperlink{main_8c_source_l00139}{139}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{int}\ printedBefore\ =\ 0;\ \textcolor{comment}{//remembering\ if\ we\ printed\ something\ to\ put\ signs\ correctly}}
-\DoxyCodeLine{00120\ }
-\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(a)\ >\ \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}})\ \{\ \textcolor{comment}{//if\ not\ zero}}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a\ <\ 0)\ printf(\textcolor{stringliteral}{"{}-\/"{}});\ \textcolor{comment}{//sign}}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(fabs(a)-\/1)\ >\ \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}})\ printf(\textcolor{stringliteral}{"{}\%g"{}},\ fabs(a));\ \textcolor{comment}{//1x\string^2\ is\ the\ same\ as\ x\string^2}}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}x\string^2\ "{}});}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ printedBefore\ =\ 1;}
-\DoxyCodeLine{00126\ \ \ \ \ \}}
-\DoxyCodeLine{00127\ }
-\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(b)\ >\ \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}})\ \{}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (printedBefore)\ printf((b\ <\ 0)\ ?\ \textcolor{stringliteral}{"{}-\/\ "{}}\ :\ \textcolor{stringliteral}{"{}+\ "{}});}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(fabs(b)-\/1)\ >\ \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}})\ printf(\textcolor{stringliteral}{"{}\%g"{}},\ printedBefore\ ?\ fabs(b)\ :\ b);}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ a\ ==\ 0\ =>\ we\ should\ print\ -\/b,\ not\ "{}-\/\ b"{}}}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}x\ "{}});}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ printedBefore\ =\ 1;}
-\DoxyCodeLine{00134\ \ \ \ \ \}}
-\DoxyCodeLine{00135\ }
-\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(printedBefore\ \&\&\ fabs(c)\ <\ \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}}))\ \{\ \textcolor{comment}{//x\ +\ 0\ <=>\ x}}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (printedBefore)\ printf((c\ <\ 0)\ ?\ \textcolor{stringliteral}{"{}-\/\ \%g\ "{}}\ :\ \textcolor{stringliteral}{"{}+\ \%g\ "{}},\ fabs(c));}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ printf(\textcolor{stringliteral}{"{}\%g\ "{}},\ c);}
-\DoxyCodeLine{00139\ \ \ \ \ \}}
-\DoxyCodeLine{00140\ \ \ \ \ printf(\textcolor{stringliteral}{"{}=\ 0\(\backslash\)n"{}});}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{int}\ printedBefore\ =\ 0;\ \textcolor{comment}{//remembering\ if\ we\ printed\ something\ to\ put\ signs\ correctly}}
 \DoxyCodeLine{00141\ }
-\DoxyCodeLine{00142\ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordtype}{double}\ \ a\ =\ equation-\/>\mbox{\hyperlink{structquadratic_equation_a1e88fec353e7c563c04ce927bcaaf8e2}{a}},}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ b\ =\ equation-\/>\mbox{\hyperlink{structquadratic_equation_a94e0e262742ef8f8a9257bc19499b7f2}{b}},}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ c\ =\ equation-\/>\mbox{\hyperlink{structquadratic_equation_aad6f2de7295ce871a1ab991b1e7b09f6}{c}};}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(a)\ >\ \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}})\ \{\ \textcolor{comment}{//if\ not\ zero}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a\ <\ 0)\ printf(\textcolor{stringliteral}{"{}-\/"{}});\ \textcolor{comment}{//sign}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(fabs(a)-\/1)\ >\ \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}})\ printf(\textcolor{stringliteral}{"{}\%g"{}},\ fabs(a));\ \textcolor{comment}{//1x\string^2\ is\ the\ same\ as\ x\string^2}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}x\string^2\ "{}});}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ printedBefore\ =\ 1;}
+\DoxyCodeLine{00151\ \ \ \ \ \}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(b)\ >\ \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}})\ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (printedBefore)\ printf((b\ <\ 0)\ ?\ \textcolor{stringliteral}{"{}-\/\ "{}}\ :\ \textcolor{stringliteral}{"{}+\ "{}});}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(fabs(b)-\/1)\ >\ \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}})\ printf(\textcolor{stringliteral}{"{}\%g"{}},\ printedBefore\ ?\ fabs(b)\ :\ b);}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ a\ ==\ 0\ =>\ we\ should\ print\ -\/b,\ not\ "{}-\/\ b"{}}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}x\ "{}});}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ printedBefore\ =\ 1;}
+\DoxyCodeLine{00159\ \ \ \ \ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(printedBefore\ \&\&\ fabs(c)\ <\ \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}}))\ \{\ \textcolor{comment}{//x\ +\ 0\ <=>\ x}}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (printedBefore)\ printf((c\ <\ 0)\ ?\ \textcolor{stringliteral}{"{}-\/\ \%g\ "{}}\ :\ \textcolor{stringliteral}{"{}+\ \%g\ "{}},\ fabs(c));}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ printf(\textcolor{stringliteral}{"{}\%g\ "{}},\ c);}
+\DoxyCodeLine{00164\ \ \ \ \ \}}
+\DoxyCodeLine{00165\ \ \ \ \ printf(\textcolor{stringliteral}{"{}=\ 0\(\backslash\)n"{}});}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{main_8c_source_l00009}{EPSILON}}.
+References \mbox{\hyperlink{main_8c_source_l00038}{quadratic\+Equation\+::a}}, \mbox{\hyperlink{main_8c_source_l00038}{quadratic\+Equation\+::b}}, \mbox{\hyperlink{main_8c_source_l00038}{quadratic\+Equation\+::c}}, and \mbox{\hyperlink{main_8c_source_l00009}{EPSILON}}.
 
 
 
-Referenced by \mbox{\hyperlink{main_8c_source_l00076}{main()}}.
+Referenced by \mbox{\hyperlink{main_8c_source_l00105}{main()}}.
 
-\Hypertarget{main_8c_af58708c715762e568b9fc4215aad4c99}\index{main.c@{main.c}!solveQuadratic@{solveQuadratic}}
+\Hypertarget{main_8c_aa7251e2bd2c1f9518aad8328566443b7}\index{main.c@{main.c}!scanCoefficients@{scanCoefficients}}
+\index{scanCoefficients@{scanCoefficients}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{scanCoefficients()}{scanCoefficients()}}
+{\footnotesize\ttfamily \label{main_8c_aa7251e2bd2c1f9518aad8328566443b7} 
+int scan\+Coefficients (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{equation}{, }\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{argv}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+Scans coeffs of quadratic eqaution from cmd args (if possible) or from console input. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em equation} & Pointer to struct that holds coeffs and answers \\
+\hline
+\mbox{\texttt{ in}}  & {\em argc} & Number of cmd arguments \\
+\hline
+\mbox{\texttt{ in}}  & {\em argv} & Cmd arguments\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if problem occured, 1 if input is readed correctly 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00124}{124}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordflow}{if}\ (argc\ !=\ 4)}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Enter\ coefficients\ of\ equation\ ax\string^2\ +\ bx\ +\ c\ =\ 0\(\backslash\)n"{}});}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{if}\ (argc\ ==\ 4)\ \{\ \textcolor{comment}{//getting\ input\ from\ cmd\ args}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a1e88fec353e7c563c04ce927bcaaf8e2}{a}}\ =\ atof(*++argv);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a94e0e262742ef8f8a9257bc19499b7f2}{b}}\ =\ atof(*++argv);}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_aad6f2de7295ce871a1ab991b1e7b09f6}{c}}\ =\ atof(*++argv);}
+\DoxyCodeLine{00132\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (scanf(\textcolor{stringliteral}{"{}\%lf\ \%lf\ \%lf"{}},\ \&(equation-\/>\mbox{\hyperlink{structquadratic_equation_a1e88fec353e7c563c04ce927bcaaf8e2}{a}}),\ \&(equation-\/>\mbox{\hyperlink{structquadratic_equation_a94e0e262742ef8f8a9257bc19499b7f2}{b}}),\ \&(equation-\/>\mbox{\hyperlink{structquadratic_equation_aad6f2de7295ce871a1ab991b1e7b09f6}{c}}))\ !=\ 3)\ \{\ \textcolor{comment}{//getting\ input\ from\ user}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00134\ \ \ \ \ \}}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00136\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{main_8c_source_l00038}{quadratic\+Equation\+::a}}, \mbox{\hyperlink{main_8c_source_l00038}{quadratic\+Equation\+::b}}, and \mbox{\hyperlink{main_8c_source_l00038}{quadratic\+Equation\+::c}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00105}{main()}}.
+
+\Hypertarget{main_8c_aa441d1cc3a45be752698479a7f1ebdb5}\index{main.c@{main.c}!solveQuadratic@{solveQuadratic}}
 \index{solveQuadratic@{solveQuadratic}!main.c@{main.c}}
 \doxysubsubsection{\texorpdfstring{solveQuadratic()}{solveQuadratic()}}
-{\footnotesize\ttfamily \label{main_8c_af58708c715762e568b9fc4215aad4c99} 
-\mbox{\hyperlink{main_8c_a00f897da5ee85851a7fd245488bed0a4}{solution\+\_\+t}} solve\+Quadratic (\begin{DoxyParamCaption}\item[{double}]{a}{, }\item[{double}]{b}{, }\item[{double}]{c}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{main_8c_aa441d1cc3a45be752698479a7f1ebdb5} 
+\mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}} \texorpdfstring{$\ast$}{*} solve\+Quadratic (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{main_8c_aaa6fe75e6f1b3b41e17d9db51590eb16}{quadratic\+Equation\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{equation}{}\end{DoxyParamCaption})}
 
 
 
@@ -327,73 +410,70 @@ solves equation, prints some comments and returns struct with answers
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a} & first coefficient \\
-\hline
-\mbox{\texttt{ in}}  & {\em b} & second coefficient \\
-\hline
-\mbox{\texttt{ in}}  & {\em c} & third coefficient\\
+\mbox{\texttt{ in,out}}  & {\em equation} & Pointer to struct that holds coeffs and answers\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-solution\+\_\+t struct with roots and exit code
+solution\+\_\+t pointer to struct with roots and exit code
 \end{DoxyReturn}
 Solves quadratic equation in form ax\texorpdfstring{$^\wedge$}{\string^}2 + bx + c = 0 Prints comments, if there aren\textquotesingle{}t any roots. Also fixes -\/0 in answer 
 
-Definition at line \mbox{\hyperlink{main_8c_source_l00144}{144}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+Definition at line \mbox{\hyperlink{main_8c_source_l00193}{193}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \ \ \ \ assert(isfinite(a));\ \textcolor{comment}{//checking\ input\ for\ NaNs}}
-\DoxyCodeLine{00147\ \ \ \ \ assert(isfinite(b));}
-\DoxyCodeLine{00148\ \ \ \ \ assert(isfinite(c));}
-\DoxyCodeLine{00149\ }
-\DoxyCodeLine{00150\ \ \ \ \ \mbox{\hyperlink{structsolution}{solution\_t}}\ result\ =\ \mbox{\hyperlink{main_8c_a70108dfaa40e114526044c55f3abde29}{BLANK\_SOLUTION}};}
-\DoxyCodeLine{00151\ }
-\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(a)\ <\ \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}})\ \{\ \textcolor{comment}{//checking\ for\ zeros\ in\ coefficients;\ we\ divide\ only\ by\ a,\ so\ this\ check\ is\ essential}}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{comment}{//a\ =\ 0}}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(b)\ <\ \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}})\ \{}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//b\ =\ 0}}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(c)\ <\ \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}})\ \{\ \textcolor{comment}{//\ 0\ =\ 0}}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a5a79e9e49077da58fe5d46a98f0b5e36}{INF\_ROOTS}};}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Equation\ can't\ be\ solved\(\backslash\)n"{}});}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a52da2ea29bc7f0697300ec26acb69715}{ZERO\_ROOTS}};}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a6700c0f6efd23571cb22aefd2510b1cf}{ONE\_ROOT}};}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}}\ =\ -\/c/b;}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00166\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ D\ =\ b*b\ -\/\ 4*a*c;\ \textcolor{comment}{//calculating\ discriminant}}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(D)\ <\ \mbox{\hyperlink{main_8c_a002b2f4894492820fe708b1b7e7c5e70}{EPSILON}})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//D\ =\ 0}}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a6700c0f6efd23571cb22aefd2510b1cf}{ONE\_ROOT}};}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}}\ =\ -\/b\ /\ (2*a);}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (D\ <\ 0)\ \{}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a52da2ea29bc7f0697300ec26acb69715}{ZERO\_ROOTS}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//D\ <\ 0}}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Equation\ can't\ be\ solved\ in\ R:\ D\ =\ \%g\ <\ 0\(\backslash\)n"{}},\ D);}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//D\ >\ 0}}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a876622d3c0b008da13a3685c64714e81}{TWO\_ROOTS}};}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ D\_sqrt\ =\ sqrt(D);}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}}\ =\ (-\/b\ +\ D\_sqrt)/(2*a);}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structsolution_a227566cab64a702caa7e8928c7da47d3}{x2}}\ =\ (-\/b\ -\/\ D\_sqrt)/(2*a);}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00180\ \ \ \ \ \}}
-\DoxyCodeLine{00181\ \ \ \ \ \textcolor{comment}{//fix\ -\/0\ case}}
-\DoxyCodeLine{00182\ \ \ \ \ result.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}}\ =\ \mbox{\hyperlink{main_8c_a0e71574e76ca5f8995a169d93db19a69}{fixMinusZero}}(result.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}});}
-\DoxyCodeLine{00183\ \ \ \ \ result.\mbox{\hyperlink{structsolution_a227566cab64a702caa7e8928c7da47d3}{x2}}\ =\ \mbox{\hyperlink{main_8c_a0e71574e76ca5f8995a169d93db19a69}{fixMinusZero}}(result.\mbox{\hyperlink{structsolution_a227566cab64a702caa7e8928c7da47d3}{x2}});}
-\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
-\DoxyCodeLine{00185\ \}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordtype}{double}\ \ a\ =\ equation-\/>\mbox{\hyperlink{structquadratic_equation_a1e88fec353e7c563c04ce927bcaaf8e2}{a}},}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ b\ =\ equation-\/>\mbox{\hyperlink{structquadratic_equation_a94e0e262742ef8f8a9257bc19499b7f2}{b}},}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ c\ =\ equation-\/>\mbox{\hyperlink{structquadratic_equation_aad6f2de7295ce871a1ab991b1e7b09f6}{c}};}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ assert(isfinite(a));\ \textcolor{comment}{//checking\ input\ for\ NaNs}}
+\DoxyCodeLine{00199\ \ \ \ \ assert(isfinite(b));}
+\DoxyCodeLine{00200\ \ \ \ \ assert(isfinite(c));}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(a)\ <\ \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}})\ \{\ \textcolor{comment}{//checking\ for\ zeros\ in\ coefficients;\ we\ divide\ only\ by\ a,\ so\ this\ check\ is\ essential}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{comment}{//a\ =\ 0}}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(b)\ <\ \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}})\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//b\ =\ 0}}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(c)\ <\ \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}})\ \{\ \textcolor{comment}{//\ 0\ =\ 0}}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a5a79e9e49077da58fe5d46a98f0b5e36}{INF\_ROOTS}};}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Equation\ can't\ be\ solved\(\backslash\)n"{}});}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a52da2ea29bc7f0697300ec26acb69715}{ZERO\_ROOTS}};}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a6700c0f6efd23571cb22aefd2510b1cf}{ONE\_ROOT}};}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}}\ =\ -\/c/b;}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00216\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ D\ =\ b*b\ -\/\ 4*a*c;\ \textcolor{comment}{//calculating\ discriminant}}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(D)\ <\ \mbox{\hyperlink{main_8c_a596344e5a2992d2beec43b76a6294de0}{EPSILON}})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//D\ =\ 0}}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a6700c0f6efd23571cb22aefd2510b1cf}{ONE\_ROOT}};}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}}\ =\ -\/b\ /\ (2*a);}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (D\ <\ 0)\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a52da2ea29bc7f0697300ec26acb69715}{ZERO\_ROOTS}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//D\ <\ 0}}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Equation\ can't\ be\ solved\ in\ R:\ D\ =\ \%g\ <\ 0\(\backslash\)n"{}},\ D);}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//D\ >\ 0}}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a5cf074b4957de90f3c7f7f1f265e8213}{code}}\ =\ \mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a876622d3c0b008da13a3685c64714e81}{TWO\_ROOTS}};}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ D\_sqrt\ =\ sqrt(D);}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}}\ =\ (-\/b\ +\ D\_sqrt)/(2*a);}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a227566cab64a702caa7e8928c7da47d3}{x2}}\ =\ (-\/b\ -\/\ D\_sqrt)/(2*a);}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00230\ \ \ \ \ \}}
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{comment}{//fix\ -\/0\ case}}
+\DoxyCodeLine{00232\ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}}\ =\ \mbox{\hyperlink{main_8c_a0e71574e76ca5f8995a169d93db19a69}{fixMinusZero}}(equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a4db2109487bdca8eed97d3c6da125e68}{x1}});}
+\DoxyCodeLine{00233\ \ \ \ \ equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a227566cab64a702caa7e8928c7da47d3}{x2}}\ =\ \mbox{\hyperlink{main_8c_a0e71574e76ca5f8995a169d93db19a69}{fixMinusZero}}(equation-\/>\mbox{\hyperlink{structquadratic_equation_a709b2f55c22be8a433130e98f392c1a9}{answer}}.\mbox{\hyperlink{structsolution_a227566cab64a702caa7e8928c7da47d3}{x2}});}
+\DoxyCodeLine{00234\ \ \ \ \ \textcolor{keywordflow}{return}\ equation;}
+\DoxyCodeLine{00235\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{main_8c_source_l00059}{BLANK\+\_\+\+SOLUTION}}, \mbox{\hyperlink{main_8c_source_l00053}{solution\+::code}}, \mbox{\hyperlink{main_8c_source_l00009}{EPSILON}}, \mbox{\hyperlink{main_8c_source_l00187}{fix\+Minus\+Zero()}}, \mbox{\hyperlink{main_8c_source_l00044}{INF\+\_\+\+ROOTS}}, \mbox{\hyperlink{main_8c_source_l00042}{ONE\+\_\+\+ROOT}}, \mbox{\hyperlink{main_8c_source_l00043}{TWO\+\_\+\+ROOTS}}, \mbox{\hyperlink{main_8c_source_l00054}{solution\+::x1}}, \mbox{\hyperlink{main_8c_source_l00055}{solution\+::x2}}, and \mbox{\hyperlink{main_8c_source_l00041}{ZERO\+\_\+\+ROOTS}}.
+References \mbox{\hyperlink{main_8c_source_l00038}{quadratic\+Equation\+::a}}, \mbox{\hyperlink{main_8c_source_l00039}{quadratic\+Equation\+::answer}}, \mbox{\hyperlink{main_8c_source_l00038}{quadratic\+Equation\+::b}}, \mbox{\hyperlink{main_8c_source_l00038}{quadratic\+Equation\+::c}}, \mbox{\hyperlink{main_8c_source_l00028}{solution\+::code}}, \mbox{\hyperlink{main_8c_source_l00009}{EPSILON}}, \mbox{\hyperlink{main_8c_source_l00237}{fix\+Minus\+Zero()}}, \mbox{\hyperlink{main_8c_source_l00019}{INF\+\_\+\+ROOTS}}, \mbox{\hyperlink{main_8c_source_l00017}{ONE\+\_\+\+ROOT}}, \mbox{\hyperlink{main_8c_source_l00018}{TWO\+\_\+\+ROOTS}}, \mbox{\hyperlink{main_8c_source_l00029}{solution\+::x1}}, \mbox{\hyperlink{main_8c_source_l00030}{solution\+::x2}}, and \mbox{\hyperlink{main_8c_source_l00016}{ZERO\+\_\+\+ROOTS}}.
 
 
 
-Referenced by \mbox{\hyperlink{main_8c_source_l00076}{main()}}.
+Referenced by \mbox{\hyperlink{main_8c_source_l00105}{main()}}.
 
 
 
@@ -406,14 +486,28 @@ const \mbox{\hyperlink{main_8c_a00f897da5ee85851a7fd245488bed0a4}{solution\+\_\+
 
 
 
-Definition at line \mbox{\hyperlink{main_8c_source_l00059}{59}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+Definition at line \mbox{\hyperlink{main_8c_source_l00033}{33}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00059\ \{\mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a47dc01efaa7e3f06b9685e6e70e7c5a3}{BLANK\_ROOT}},\ NAN,\ NAN\};}
+\DoxyCodeLine{00033\ \{\mbox{\hyperlink{main_8c_a97d6368ca6d371ef5fa53338cdd1b433a47dc01efaa7e3f06b9685e6e70e7c5a3}{BLANK\_ROOT}},\ NAN,\ NAN\};}
 
 \end{DoxyCode}
 
 
-Referenced by \mbox{\hyperlink{main_8c_source_l00144}{solve\+Quadratic()}}.
+Referenced by \mbox{\hyperlink{main_8c_source_l00105}{main()}}.
+
+\Hypertarget{main_8c_a596344e5a2992d2beec43b76a6294de0}\index{main.c@{main.c}!EPSILON@{EPSILON}}
+\index{EPSILON@{EPSILON}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EPSILON}{EPSILON}}
+{\footnotesize\ttfamily \label{main_8c_a596344e5a2992d2beec43b76a6294de0} 
+const double EPSILON = 1e-\/10}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00009}{9}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{main_8c_source_l00237}{fix\+Minus\+Zero()}}, \mbox{\hyperlink{main_8c_source_l00139}{print\+Kvadr()}}, and \mbox{\hyperlink{main_8c_source_l00193}{solve\+Quadratic()}}.
 
