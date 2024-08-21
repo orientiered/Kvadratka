@@ -30,10 +30,13 @@ enum error {
 typedef struct cmdFlags {
     unsigned int silent: 1;     ///< Don't print anything except answer
     unsigned int unitTest: 1;   ///< Run unitTests before execution
+    unsigned int help: 1;       ///< Print help
+
     unsigned int scanCoeffs: 1; ///< Indicates that program should try to parse cmd args as equation coeffs
     unsigned int argPos;        ///< Position in argv from which program will parse coeffs
-    unsigned int help: 1;       ///< Print help
 } cmdFlags_t;
+
+const cmdFlags_t BLANK_FLAGS = {0, 0, 0, 0, 0};
 
 
 /*!
@@ -53,6 +56,8 @@ typedef struct quadraticEquation {
     double a, b, c;     //< Coefficients of quadratic polynomial
     solution_t answer;  //< structure with exit code and answers
 } quadraticEquation_t;
+
+const quadraticEquation_t BLANK_QUADRATIC_EQUATION = {NAN, NAN, NAN, BLANK_SOLUTION};
 
 
 /// @brief Struct which stores data for unit-testing
@@ -137,9 +142,9 @@ void printAnswer(const quadraticEquation_t* equation);
 /*!
     @brief Runs unit-tests
 
-    @return Number of failed test; 0 if all tests are passed
+    @return error code
 */
-int unitTesting();
+enum error unitTesting();
 
 
 /*!
@@ -184,6 +189,10 @@ void flushScanfBuffer();
 
 /*!
     @brief Parses cmd args to cmdFlags struct
+
+    Expected input format: --flags a b c
+    Available flags: --help --h --u --s
+    Example: .\main --u 1 2 3 => runs program with unit tests and coefficients 1 2 3
 */
 enum error parseCmdArgs(cmdFlags_t* flags, unsigned int argc, char *argv[]);
 #endif

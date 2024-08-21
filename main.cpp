@@ -17,21 +17,36 @@ const int ASCII_EOT = 4;
 const int ASCII_SUB = 26;
 
 #define EXIT_BAD_INPUT 1 //exit when input can't be parsed correctly
+#define EXIT_BAD_UNIT_TEST 2 //exit when unit tests failed
 #define swapDouble(a, b) do{double c = b; b = a; a = c;}while(0)
 
 
 int main(int argc, char *argv[]) {
-    quadraticEquation_t equation = {NAN, NAN, NAN, BLANK_SOLUTION};
+    quadraticEquation_t equation = BLANK_QUADRATIC_EQUATION;
 
-    cmdFlags_t flags = {0, 0, 0, 0, 0};
-    parseCmdArgs(&flags, (unsigned) argc, argv);
+    cmdFlags_t flags = BLANK_FLAGS;
+    if (parseCmdArgs(&flags, (unsigned) argc, argv) == BAD_EXIT) {
+        printf("Can't read cmd args\n");
+        flags = BLANK_FLAGS;
+    }
+
+    if (flags.help) {
+        printf(GREEN_BKG "########################################################" RESET_C "\n"
+                " Available cmd args:\n"
+                "--h --help  Prints this message, ignores other flags\n"
+                "--s         Silent mode, prints only essential info\n"
+                "--u         Unit tests, runs built-in unit tests\n"
+                " After args you can type coefficients of equation\n"
+                " If coefficients can't be parsed, program will ask you to enter them from console\n"
+                GREEN_BKG "########################################################" RESET_C "\n");
+        flags = BLANK_FLAGS;
+    }
 
     if (!flags.silent) {
         printf(CYAN "# Quadratic equation solver\n# orientiered 2024" RESET_C "\n");
         if (flags.unitTest) {
-            int failedTest = 0;
-            if ((failedTest = unitTesting()) != 0)
-                printf(RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", failedTest);
+            if (unitTesting() != GOOD_EXIT)
+                exit(EXIT_BAD_UNIT_TEST);
         }
     }
 
@@ -185,21 +200,25 @@ void printAnswer(const quadraticEquation_t* equation) {
 }
 
 
-int unitTesting() {
+enum error unitTesting() {
     #ifndef TEST_DATA_INCLUDED
         printf("Include test data\n");
+        return BAD_EXIT;
     #else
     const int testSize = sizeof(testData) / sizeof(unitTest_t);
 
     for (int testIndex = 0; testIndex < testSize; testIndex++) {
-        if (runTest(testData[testIndex]) != GOOD_EXIT)
-            return testIndex + 1;
+        if (runTest(testData[testIndex]) != GOOD_EXIT) {
+            printf(RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
+            return BAD_EXIT;
+        }
         else {
             printf(GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
         }
     }
+
     #endif
-    return 0;
+    return GOOD_EXIT;
 }
 
 
@@ -209,7 +228,7 @@ enum error runTest(unitTest_t test) {
 
     if (result.code != test.expectedData.code) { //checking exit code first
         printKvadr(&test.inputData); //print equation
-        printf("Exit code doesn't match: expected %d, got %d\n",
+        printf(RED_BKG "Exit code doesn't match: " GREEN_BKG "expected %d, " CYAN_BKG "got %d" RESET_C "\n",
                 test.expectedData.code, result.code);
         return BAD_EXIT;
     } else {
@@ -221,7 +240,7 @@ enum error runTest(unitTest_t test) {
             case ONE_ROOT:
                 if(cmpDouble(result.x1, test.expectedData.x1) != 0) {
                     printKvadr(&test.inputData); //print equation
-                    printf( "Answers doesn't match: expected x = %lf, got x = %lf\n",
+                    printf(RED_BKG "Answers doesn't match: " GREEN_BKG "expected x = %lf, " CYAN_BKG "got x = %lf" RESET_C "\n",
                     test.expectedData.x1, result.x1);
                     return BAD_EXIT;
                 } else
@@ -231,8 +250,8 @@ enum error runTest(unitTest_t test) {
                     swapDouble(result.x1, result.x2);
                 if (cmpDouble(result.x1, test.expectedData.x1) != 0 || cmpDouble(result.x2, test.expectedData.x2) != 0) {
                     printKvadr(&test.inputData); //print equation
-                    printf( "Answers doesn't match: expected x1 = %lf, x2 = %lf\n"
-                            "Got x1 = %lf, x2 = %lf\n",
+                    printf(RED_BKG "Answers doesn't match: " GREEN_BKG "expected x1 = %lf, x2 = %lf" RESET_C "\n"
+                            CYAN_BKG "Got x1 = %lf, x2 = %lf" RESET_C "\n",
                             test.expectedData.x1, test.expectedData.x2, result.x1, result.x2);
                     return BAD_EXIT;
                 } else
@@ -318,7 +337,8 @@ double fixMinusZero(const double num) {
 enum error parseCmdArgs(cmdFlags_t* flags, unsigned int argc, char *argv[]) {
     flags->argPos = 1;
     while (flags->argPos < argc) {
-        if (strcmp(argv[flags->argPos], "--h") == 0) {
+        if (strcmp(argv[flags->argPos], "--h") == 0 ||
+            strcmp(argv[flags->argPos], "--help") == 0) {
             flags->help = 1;
             return GOOD_EXIT;
         } else if (strcmp(argv[flags->argPos], "--s") == 0) {
@@ -328,6 +348,8 @@ enum error parseCmdArgs(cmdFlags_t* flags, unsigned int argc, char *argv[]) {
         } else if (argc - flags->argPos == 3) {
             flags->scanCoeffs = 1;
             return GOOD_EXIT;
+        } else {
+            return BAD_EXIT;
         }
         flags->argPos++;
     }

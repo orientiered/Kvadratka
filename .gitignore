@@ -1,2 +1,5 @@
 main.exe
 /docs
+/doxDocs
+quadraticSolver.c
+compile.bat

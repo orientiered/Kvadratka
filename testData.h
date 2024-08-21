@@ -5,9 +5,9 @@
 
 unitTest_t testData[] = {
 /*
-        {
-            {a, b, c, BLANK_SOLUTION},
-            {numberOfRoots, x1expected, x2expected}
+        {                                                 unitTest_T
+            {a, b, c, BLANK_SOLUTION},                    quadraticEquation_t
+            {numberOfRoots, x1expected, x2expected}       solution_t
         }
 */
         {
