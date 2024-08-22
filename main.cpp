@@ -32,12 +32,14 @@ int main(int argc, char *argv[]) {
 
     if (flags.help) {
         printf(GREEN_BKG "########################################################" RESET_C "\n"
+                " This program solves quadratic equation\n"
                 " Available cmd args:\n"
-                "--h --help  Prints this message, ignores other flags\n"
-                "--s         Silent mode, prints only essential info\n"
-                "--u         Unit tests, runs built-in unit tests\n"
+                "   -h --help  Prints this message, ignores other flags\n"
+                "   -s         Silent mode, prints only essential info\n"
+                "   -u         Unit tests, runs built-in unit tests\n"
                 " After args you can type coefficients of equation\n"
                 " If coefficients can't be parsed, program will ask you to enter them from console\n"
+                " You should separate numbers with any space characters or end of lines\n"
                 GREEN_BKG "########################################################" RESET_C "\n");
         flags = BLANK_FLAGS;
     }
@@ -103,8 +105,8 @@ enum error scanFromConsole(quadraticEquation_t* equation) {
     double *coeffsArray[] = {&(equation->a), &(equation->b), &(equation->c)};
     int index = 0;
 
-    const int MAX_BUFFER_LEN = 1000;
-    char strBuffer[MAX_BUFFER_LEN] = {};
+    //const int MAX_BUFFER_LEN = 1000;
+    //char strBuffer[MAX_BUFFER_LEN] = {};
 
     int scanfStatus = 0; //scanf return
     for (; index < 3; ) {
@@ -112,18 +114,21 @@ enum error scanFromConsole(quadraticEquation_t* equation) {
             break;
         } else if (scanfStatus != 1) {
             printf(RED_BKG "Wrong input format." RESET_C "\n");
-            scanf("%s", strBuffer);
-            printf(RED_BKG "Can't convert \"%s\" to double, skipping" RESET_C "\n", strBuffer);
-            //flushScanfBuffer();
+            //scanf("%s", strBuffer);
+            //printf(RED_BKG "Can't convert \"%s\" to double, skipping" RESET_C "\n", strBuffer);
+            flushScanfBuffer();
         } else {
             int c = 0;
             if (!isspace(c = getchar())) {
-                ungetc(c, stdin);
-                scanf("%s", strBuffer);
+                //ungetc(c, stdin);
+                //scanf("%s", strBuffer);
                 printf(RED_BKG "Wrong input format" RESET_C "\n");
-                printf(RED_BKG "Can convert to double, but \"%s\" is right after the number." RESET_C "\n", strBuffer);
-                //flushScanfBuffer();
-            } else index++;
+                //printf(RED_BKG "Can convert to double, but \"%s\" is right after the number." RESET_C "\n", strBuffer);
+                flushScanfBuffer();
+            } else {
+                printf("Last scanned number: %lg, total scanned: %d\n", *coeffsArray[index], index+1);
+                index++;
+            }
         }
     }
     if (index == 3) return GOOD_EXIT;
@@ -337,13 +342,13 @@ double fixMinusZero(const double num) {
 enum error parseCmdArgs(cmdFlags_t* flags, unsigned int argc, char *argv[]) {
     flags->argPos = 1;
     while (flags->argPos < argc) {
-        if (strcmp(argv[flags->argPos], "--h") == 0 ||
+        if (strcmp(argv[flags->argPos], "-h") == 0 ||
             strcmp(argv[flags->argPos], "--help") == 0) {
             flags->help = 1;
             return GOOD_EXIT;
-        } else if (strcmp(argv[flags->argPos], "--s") == 0) {
+        } else if (strcmp(argv[flags->argPos], "-s") == 0) {
             flags->silent = 1;
-        } else if (strcmp(argv[flags->argPos], "--u") == 0) {
+        } else if (strcmp(argv[flags->argPos], "-u") == 0) {
             flags->unitTest = 1;
         } else if (argc - flags->argPos == 3) {
             flags->scanCoeffs = 1;
