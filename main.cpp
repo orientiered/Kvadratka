@@ -93,6 +93,6 @@ int main(int argc, char *argv[]) {
         } else
             readFromConsole = false;
 
-    };
+    }
     return 0;
 }
