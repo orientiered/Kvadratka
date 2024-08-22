@@ -1,8 +1,6 @@
 #ifndef TEST_DATA_INCLUDED
 #define TEST_DATA_INCLUDED
 
-#include "quadraticSolver.h"
-
 unitTest_t testData[] = {
 /*
         {                                                 unitTest_T

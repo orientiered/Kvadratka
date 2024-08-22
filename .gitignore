@@ -1,6 +1,8 @@
 main.exe
 /docs
 /doxDocs
+/obj
 quadraticSolver.c
 compile.bat
 test.txt
+cmpl.bat
