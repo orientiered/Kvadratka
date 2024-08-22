@@ -13,6 +13,7 @@ enum solutionCode {
     ONE_ROOT,           ///< 1 root
     TWO_ROOTS,          ///< 2 roots
     INF_ROOTS,          ///< infinity roots, 0 = 0
+    BAD_INPUT,          ///< When input is inf of Nan
     BLANK_ROOT = -1     ///< This code is used when solution_t is initialized
 };
 
@@ -22,7 +23,9 @@ enum error {
     BAD_EXIT,           ///< Function handled fail inside it correctly
     GOOD_EXIT,          ///< Function worked correctly and all is as expected
     STRANGE_EXIT,       ///< Exit in condinitions that can't be reached
-    FAIL                ///< Emergency exit
+    FAIL,               ///< Emergency exit
+    BLANK               ///< Empty error
+
 };
 
 
@@ -183,9 +186,17 @@ int isZero(const double a);
     @brief Clears stdin buffer using getchar() until it sees space character
 
     Ctrl+Z, Ctrl+D and EOF are also interpreted as space character
+    @return BAD_EXIT if sees Ctrl+D, Ctrl+Z or EOF else GOOD_EXIT
 */
-void flushScanfBuffer();
+enum error flushScanfBuffer();
 
+
+/*!
+    @brief Clears stdin buffer using getchar() until it sees EOL of EOF
+
+    @return BAD_EXIT if sees Ctrl+D, Ctrl+Z or EOF else GOOD_EXIT
+*/
+enum error flushScanfBufferHard();
 
 /*!
     @brief Parses cmd args to cmdFlags struct

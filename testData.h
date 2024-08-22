@@ -37,6 +37,10 @@ unitTest_t testData[] = {
         {
             {4, 2, 0, BLANK_SOLUTION},
             {TWO_ROOTS, -0.5, 0}
+        },
+        {
+            {NAN, NAN, INFINITY, BLANK_SOLUTION},
+            {BAD_INPUT, 0, 0}
         }
     };
 

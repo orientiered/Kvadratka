@@ -18,8 +18,24 @@ const int ASCII_SUB = 26;
 
 #define EXIT_BAD_INPUT 1 //exit when input can't be parsed correctly
 #define EXIT_BAD_UNIT_TEST 2 //exit when unit tests failed
-#define swapDouble(a, b) do{double c = b; b = a; a = c;}while(0)
 
+#define SWAP_DOUBLE(a, b)           \
+            do{                     \
+                double c = b;       \
+                b = a;              \
+                a = c;              \
+            }while(0)
+
+#define PROPAGATE_ERROR(result)                         \
+        do{                                             \
+            enum error res = result;                    \
+            if (res == BAD_EXIT || res == FAIL)         \
+            {                                           \
+                printf("Error on line %d\n", __LINE__); \
+                return res;                             \
+            }                                           \
+        }while(0)
+//__FUNCTION__ __PRETTY_FUNCTION__ __FILE__
 
 int main(int argc, char *argv[]) {
     quadraticEquation_t equation = BLANK_QUADRATIC_EQUATION;
@@ -52,29 +68,51 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    enum error scanResult = BAD_EXIT;
+    enum error scanResult = BLANK;
 
-    if (flags.scanCoeffs)
+    if (flags.scanCoeffs) { //scanning from cmd args
         scanResult = scanFromCmdArgs(&equation, argv+flags.argPos);
-
-    if (scanResult != GOOD_EXIT) {
+        if (scanResult != GOOD_EXIT) { ///in this case we don't want to read again
+            if (!flags.silent)
+                printf(RED_BKG "Wrong input format" RESET_C "\n");
+            exit(EXIT_BAD_INPUT);
+        }
         if (!flags.silent)
-            printf(YELLOW_BKG "Enter coefficients of equation ax^2 + bx + c = 0" RESET_C "\n");
-
-        scanResult = scanFromConsole(&equation);
+            printKvadr(&equation);
+        solveQuadratic(&equation);
+        printAnswer(&equation);
     }
 
-    if (scanResult != GOOD_EXIT) {
+    bool readFromConsole = !flags.scanCoeffs;
+
+    while (readFromConsole) {
+        if (scanResult != GOOD_EXIT) {
+            if (!flags.silent)
+                printf(YELLOW_BKG "Enter coefficients of equation ax^2 + bx + c = 0" RESET_C "\n");
+            scanResult = scanFromConsole(&equation);
+        }
+
+        if (scanResult != GOOD_EXIT) {
+            if (!flags.silent)
+                printf(RED_BKG "Scan failed" RESET_C "\n");
+            exit(EXIT_BAD_INPUT);
+        }
+
         if (!flags.silent)
-            printf(RED_BKG "Wrong input format" RESET_C "\n");
-        exit(EXIT_BAD_INPUT);
-    }
+            printKvadr(&equation);
+        solveQuadratic(&equation);
+        printAnswer(&equation);
+        flushScanfBufferHard();
+        printf(CYAN_BKG "Would you like to solve another equation?" RESET_C "\n");
+        printf("y/n\n");
+        int c = getchar();
+        if (tolower(c) == 'y') {
+            flushScanfBufferHard();
+            scanResult = BLANK;
+        } else
+            readFromConsole = false;
 
-    if (!flags.silent)
-        printKvadr(&equation);
-    solveQuadratic(&equation);
-    printAnswer(&equation);
-
+    };
     return 0;
 }
 
@@ -105,27 +143,21 @@ enum error scanFromConsole(quadraticEquation_t* equation) {
     double *coeffsArray[] = {&(equation->a), &(equation->b), &(equation->c)};
     int index = 0;
 
-    //const int MAX_BUFFER_LEN = 1000;
-    //char strBuffer[MAX_BUFFER_LEN] = {};
-
     int scanfStatus = 0; //scanf return
-    for (; index < 3; ) {
+    while (index < 3) {
         if ((scanfStatus = scanf("%lf", coeffsArray[index])) == EOF) {
             break;
         } else if (scanfStatus != 1) {
             printf(RED_BKG "Wrong input format." RESET_C "\n");
-            //scanf("%s", strBuffer);
-            //printf(RED_BKG "Can't convert \"%s\" to double, skipping" RESET_C "\n", strBuffer);
-            flushScanfBuffer();
+            PROPAGATE_ERROR(flushScanfBuffer());
+
         } else {
             int c = 0;
             if (!isspace(c = getchar())) {
-                //ungetc(c, stdin);
-                //scanf("%s", strBuffer);
                 printf(RED_BKG "Wrong input format" RESET_C "\n");
-                //printf(RED_BKG "Can convert to double, but \"%s\" is right after the number." RESET_C "\n", strBuffer);
-                flushScanfBuffer();
+                PROPAGATE_ERROR(flushScanfBuffer());
             } else {
+                ungetc(c, stdin);
                 printf("Last scanned number: %lg, total scanned: %d\n", *coeffsArray[index], index+1);
                 index++;
             }
@@ -137,12 +169,21 @@ enum error scanFromConsole(quadraticEquation_t* equation) {
 }
 
 
-void flushScanfBuffer() {
+enum error flushScanfBuffer() {
     int c = 0;
     while (!isspace(c = getchar()) && c != '\n' && c != '\0' && c != EOF && c != ASCII_EOT && c != ASCII_SUB){}
-    //printf("\n%p %d\n", stdin, c);
-    //ungetc( (c == EOF) ? '\0' : c, stdin);
-    //printf("%p %d\n", stdin, c);
+    //if (c == '\n') ungetc(c, stdin);
+    if (c == EOF || c == ASCII_EOT || c == ASCII_SUB) return BAD_EXIT;
+    return GOOD_EXIT;
+}
+
+
+enum error flushScanfBufferHard() {
+    int c = 0;
+    while ((c = getchar()) != '\n' && c != '\0' && c != EOF && c != ASCII_EOT && c != ASCII_SUB){}
+    //if (c == '\n') ungetc(c, stdin);
+    if (c == EOF || c == ASCII_EOT || c == ASCII_SUB) return BAD_EXIT;
+    return GOOD_EXIT;
 }
 
 
@@ -198,6 +239,9 @@ void printAnswer(const quadraticEquation_t* equation) {
         case INF_ROOTS:
             printf("x is any number");
             break;
+        case BAD_INPUT:
+            printf("Please check your input\n");
+            break;
         default:
             printf("That's really bad :(\n");
             break;
@@ -240,23 +284,24 @@ enum error runTest(unitTest_t test) {
         switch (result.code) {
             case INF_ROOTS:
             case BLANK_ROOT:
+            case BAD_INPUT:
             case ZERO_ROOTS:
                 return GOOD_EXIT;
             case ONE_ROOT:
                 if(cmpDouble(result.x1, test.expectedData.x1) != 0) {
                     printKvadr(&test.inputData); //print equation
-                    printf(RED_BKG "Answers doesn't match: " GREEN_BKG "expected x = %lf, " CYAN_BKG "got x = %lf" RESET_C "\n",
+                    printf(RED_BKG "Answers doesn't match: " GREEN_BKG "expected x = %lg, " CYAN_BKG "got x = %lg" RESET_C "\n",
                     test.expectedData.x1, result.x1);
                     return BAD_EXIT;
                 } else
                     return GOOD_EXIT;
             case TWO_ROOTS:
                 if (result.x1 > result.x2)
-                    swapDouble(result.x1, result.x2);
+                    SWAP_DOUBLE(result.x1, result.x2);
                 if (cmpDouble(result.x1, test.expectedData.x1) != 0 || cmpDouble(result.x2, test.expectedData.x2) != 0) {
                     printKvadr(&test.inputData); //print equation
-                    printf(RED_BKG "Answers doesn't match: " GREEN_BKG "expected x1 = %lf, x2 = %lf" RESET_C "\n"
-                            CYAN_BKG "Got x1 = %lf, x2 = %lf" RESET_C "\n",
+                    printf(RED_BKG "Answers doesn't match: " GREEN_BKG "expected x1 = %lg, x2 = %lg" RESET_C "\n"
+                            CYAN_BKG "Got x1 = %lg, x2 = %lg" RESET_C "\n",
                             test.expectedData.x1, test.expectedData.x2, result.x1, result.x2);
                     return BAD_EXIT;
                 } else
@@ -270,8 +315,7 @@ enum error runTest(unitTest_t test) {
 
 
 int cmpDouble(const double a, const double b) {
-    assert(!isinf(a));
-    assert(!isinf(b));
+    if (isinf(a) && isinf(b)) return 0;
     if (isnan(a) && isnan(b)) return 0;
     if (fabs(a - b) < EPSILON) return 0;
     else return (a < b) ? -1 : 1;
@@ -290,9 +334,12 @@ enum error solveQuadratic(quadraticEquation_t* equation) {
             b = equation->b,
             c = equation->c;
 
-    assert(isfinite(a)); //checking input for NaNs
-    assert(isfinite(b));
-    assert(isfinite(c));
+    if (!isfinite(a) || !isfinite(b) || !isfinite(c)) {
+        equation->answer.code = BAD_INPUT;
+        return FAIL;
+    }
+    //checking input for NaNs
+
 
     if (isZero(a)) { //checking for zeros in coefficients; we divide only by a, so this check is essential
         //a = 0
