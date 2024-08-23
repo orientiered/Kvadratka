@@ -25,9 +25,9 @@ enum error solveEquation(quadraticEquation_t* equation) {
     }
 
 
-    if (isZero(a)) // we divide only by a, so this check is essential
+    if (isZero(a)) { // we divide only by a, so this check is essential
         solveLinear(equation);
-    else
+    } else
         solveQuadratic(equation);
 
     //fix -0 case
@@ -54,7 +54,7 @@ enum error solveLinear(quadraticEquation_t* equation) {
         }
     } else {
         equation->answer.code = ONE_ROOT;
-        equation->answer.x1 = -equation->c/equation->b;
+        equation->answer.x1 = -(equation->c)/(equation->b);
     }
     return GOOD_EXIT;
 }

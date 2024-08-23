@@ -58,7 +58,7 @@ void printAnswer(const quadraticEquation_t* equation) {
             printf("x1 = %lg\nx2 = %lg\n", equation->answer.x1, equation->answer.x2);
             break;
         case INF_ROOTS:
-            printf("x is any number");
+            printf("x is any number\n");
             break;
         case BAD_INPUT:
             printf("Please check your input\n");

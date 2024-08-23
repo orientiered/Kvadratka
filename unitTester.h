@@ -14,11 +14,13 @@ typedef struct unitTest {
 /*!
     @brief Runs unit-tests
 
+    @param[in] Flag: if 1 - unit testing should go silently, if 0 - print all messages
+
     @return error code
 
     Expects testData.h to be included
 */
-enum error unitTesting();
+enum error unitTesting(int silent);
 
 
 /*!

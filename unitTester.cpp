@@ -11,7 +11,7 @@
 #include "testData.h"
 
 
-enum error unitTesting() {
+enum error unitTesting(int silent) {
     #ifndef TEST_DATA_INCLUDED
         printf("Include test data\n");
         return BAD_EXIT;
@@ -23,7 +23,7 @@ enum error unitTesting() {
             printf(RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
             return BAD_EXIT;
         }
-        else {
+        else if (!silent) {
             printf(GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
         }
     }

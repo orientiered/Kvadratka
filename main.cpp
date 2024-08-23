@@ -17,19 +17,19 @@
 #include "colors.h"
 #include "inputHandler.h"
 
-#define EXIT_BAD_INPUT 1 //exit when input can't be parsed correctly
-#define EXIT_BAD_UNIT_TEST 2 //exit when unit tests failed
+const int EXIT_BAD_INPUT =  1; //exit when input can't be parsed correctly
+const int EXIT_BAD_UNIT_TEST = 2; //exit when unit tests failed
 
 int main(int argc, char *argv[]) {
     quadraticEquation_t equation = BLANK_QUADRATIC_EQUATION;
 
     cmdFlags_t flags = BLANK_FLAGS;
-    if (parseCmdArgs(&flags, (unsigned) argc, argv) == BAD_EXIT) {
+    if (parseCmdArgs(&flags, (unsigned) argc, argv) == BAD_EXIT) { //parsing flags from console args
         printf("Can't read cmd args\n");
         flags = BLANK_FLAGS;
     }
 
-    if (flags.help) {
+    if (flags.help) { //printing help message
         printf(GREEN_BKG "########################################################" RESET_C "\n"
                 " This program solves quadratic equation\n"
                 " Available cmd args:\n"
@@ -40,15 +40,15 @@ int main(int argc, char *argv[]) {
                 " If coefficients can't be parsed, program will ask you to enter them from console\n"
                 " You should separate numbers with any space characters or end of lines\n"
                 GREEN_BKG "########################################################" RESET_C "\n");
-        flags = BLANK_FLAGS;
+        flags = BLANK_FLAGS; //--help ignores ALL other flags
     }
 
-    if (!flags.silent) {
+    if (!flags.silent) { //if not silent mode
         printf(CYAN "# Quadratic equation solver\n# orientiered 2024" RESET_C "\n");
-        if (flags.unitTest) {
-            if (unitTesting() != GOOD_EXIT)
-                exit(EXIT_BAD_UNIT_TEST);
-        }
+    }
+
+    if (flags.unitTest && unitTesting(flags.silent) != GOOD_EXIT) {
+            exit(EXIT_BAD_UNIT_TEST);
     }
 
     enum error scanResult = BLANK;
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
         }
         if (!flags.silent)
             printKvadr(&equation);
-        solveQuadratic(&equation);
+        solveEquation(&equation);
         printAnswer(&equation);
     }
 
@@ -77,17 +77,18 @@ int main(int argc, char *argv[]) {
 
         if (scanResult != GOOD_EXIT) {
             if (!flags.silent)
-                printf(RED_BKG "Scan failed" RESET_C "\n");
+                printf(RED_BKG "Scan failed: encountered Ctrl+D, Ctrl+Z or file ended" RESET_C "\n");
             exit(EXIT_BAD_INPUT);
         }
 
         if (!flags.silent)
             printKvadr(&equation);
-        solveQuadratic(&equation);
+        solveEquation(&equation);
         printAnswer(&equation);
+
         flushScanfBufferHard();
-        printf(CYAN_BKG "Would you like to solve another equation?" RESET_C "\n");
-        printf("y/n\n");
+        printf(CYAN_BKG "Would you like to solve another equation?" RESET_C "\n"
+              "y/n\n");
         int c = getchar();
         if (tolower(c) == 'y') {
             flushScanfBufferHard();
