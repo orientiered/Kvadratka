@@ -1,5 +1,5 @@
 /// @file
-/// Headers of structs and functions
+/// @brief Functions to solve quadratic equation
 
 #ifndef QUADRATIC_SOLVER
 #define QUADRATIC_SOLVER

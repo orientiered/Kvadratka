@@ -1,5 +1,5 @@
 /// @file
-/// functions to run unitTests
+/// @brief functions to run unitTests
 
 #ifndef UNIT_TESTER_H
 #define UNIT_TESTER_H

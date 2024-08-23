@@ -1,5 +1,5 @@
 /// @file
-/// Quadratic equation input functions
+/// @brief Quadratic equation input functions
 
 #ifndef INPUT_HANDLER
 #define INPUT_HANDLER

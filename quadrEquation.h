@@ -1,5 +1,5 @@
 /// @file
-/// Header with structs for quadratic equation
+/// @brief Header with structs for quadratic equation
 
 #ifndef QUADR_EQUATION_H
 #define QUADR_EQUATION_H

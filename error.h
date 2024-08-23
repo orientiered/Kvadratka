@@ -1,3 +1,6 @@
+/// @file
+/// @brief Struct and macros for error handling
+
 #ifndef ERROR_H
 #define ERROR_H
 
@@ -6,6 +9,7 @@
 */
 #include "colors.h"
 
+/// @brief
 #define PROPAGATE_ERROR(expr)                                                                               \
         do{                                                                                                 \
             enum error res = expr;                                                                          \
@@ -25,8 +29,8 @@
 #define MY_ASSERT(expr, run)                                                                                            \
         do {                                                                                                            \
             if (!(expr)) {                                                                                              \
-                printf(RED "Assertion failed:\n\t{" #expr "}\n" RESET_C);                                                 \
-                printf(RED "File: %s, function: %s, line: %d\n" RESET_C, __FILE__, __PRETTY_FUNCTION__, __LINE__);   \
+                printf(RED "Assertion failed:\n\t{" #expr "}\n" RESET_C);                                               \
+                printf(RED "File: %s, function: %s, line: %d\n" RESET_C, __FILE__, __PRETTY_FUNCTION__, __LINE__);      \
                 do {                                                                                                    \
                     run;                                                                                                \
                 } while (0);                                                                                            \

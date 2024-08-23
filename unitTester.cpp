@@ -38,12 +38,14 @@ enum error unitTestingFile(const char name[], int silent) {
     FILE* testsF = fopen(name, "r");
     if (!testsF) {
         printf("Can't read file %s\n", name);
+        fclose(testsF);
         return FAIL;
     }
 
     int testCount = 0;
     if (fscanf(testsF, " %d ", &testCount) != 1) {
         printf("Can't read number of tests\n");
+        fclose(testsF);
         return BAD_EXIT;
     };
 
@@ -52,17 +54,20 @@ enum error unitTestingFile(const char name[], int silent) {
         enum error readStatus = readUnitTest(testsF, &test);
         if (readStatus != GOOD_EXIT) {
             printf("Can't read test #%d\n", testIndex+1);
+            fclose(testsF);
             return readStatus;
         }
 
         if (runTest(test) != GOOD_EXIT) {
             printf(RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
+            fclose(testsF);
             return BAD_EXIT;
         }
         else if (!silent) {
             printf(GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
         }
     }
+    fclose(testsF);
     return GOOD_EXIT;
 }
 

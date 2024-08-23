@@ -1,8 +1,9 @@
 /// @file
-/// defines with color constants for console text
+/// @brief defines with color constants for console text
 #ifndef COLOR_HEADER
 #define COLOR_HEADER
 
+/// @brief
 #define RED_BKG "\033[41m"
 #define RED "\033[31m"
 #define GREEN_BKG "\033[42m"
