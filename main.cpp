@@ -12,6 +12,8 @@
 #include "quadrEquation.h"
 
 #include "quadraticSolver.h"
+#include "quadraticPrinter.h"
+#include "unitTester.h"
 #include "colors.h"
 #include "inputHandler.h"
 

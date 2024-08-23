@@ -1,7 +1,7 @@
 #ifndef TEST_DATA_INCLUDED
 #define TEST_DATA_INCLUDED
 
-unitTest_t testData[] = {
+const unitTest_t testData[] = {
 /*
         {                                                 unitTest_T
             {a, b, c, BLANK_SOLUTION},                    quadraticEquation_t
@@ -40,6 +40,6 @@ unitTest_t testData[] = {
             {NAN, NAN, INFINITY, BLANK_SOLUTION},
             {BAD_INPUT, 0, 0}
         }
-    };
+};
 
 #endif

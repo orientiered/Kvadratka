@@ -4,6 +4,14 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#define SWAP_DOUBLE(a, b)           \
+            do{                     \
+                double c = b;       \
+                b = a;              \
+                a = c;              \
+            }while(0)
+
+
 const double EPSILON = 1e-10; //constant for comparing floats
 
 /*!
