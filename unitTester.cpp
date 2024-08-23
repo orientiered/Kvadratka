@@ -34,7 +34,7 @@ enum error unitTesting(int silent) {
 
 
 enum error runTest(unitTest_t test) {
-    solveQuadratic(&test.inputData);
+    solveEquation(&test.inputData);
     solution_t result = test.inputData.answer;
 
     if (result.code != test.expectedData.code) { //checking exit code first

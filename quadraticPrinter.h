@@ -24,6 +24,8 @@ enum error printKvadr(const quadraticEquation_t* equation);
     @brief Prints roots of solved equation
 
     @param[in] equation Pointer to struct that holds coeffs and answers
+
+    @return Enum with error code
 */
-void printAnswer(const quadraticEquation_t* equation);
+enum error printAnswer(const quadraticEquation_t* equation);
 #endif

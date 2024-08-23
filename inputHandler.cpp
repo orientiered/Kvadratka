@@ -9,7 +9,7 @@
 #include "inputHandler.h"
 
 enum error scanFromConsole(quadraticEquation_t* equation) {
-    assert(equation);
+    MY_ASSERT(equation, return FAIL;);
 
     double *coeffsArray[] = {&(equation->a), &(equation->b), &(equation->c)};
     int index = 0;
@@ -98,4 +98,18 @@ enum error parseCmdArgs(cmdFlags_t* flags, unsigned int argc, char *argv[]) {
         flags->argPos++;
     }
     return GOOD_EXIT;
+}
+
+
+void printHelp() {
+    printf(GREEN_BKG "########################################################" RESET_C "\n"
+                " This program solves quadratic equation\n"
+                " Available cmd args:\n"
+                "   -h --help  Prints this message, ignores other flags\n"
+                "   -s         Silent mode, prints only essential info\n"
+                "   -u         Unit tests, runs built-in unit tests\n"
+                " After args you can type coefficients of equation\n"
+                " If coefficients can't be parsed, program will ask you to enter them from console\n"
+                " You should separate numbers with any space characters or end of lines\n"
+                GREEN_BKG "########################################################" RESET_C "\n");
 }

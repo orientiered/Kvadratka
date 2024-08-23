@@ -17,12 +17,17 @@
 #include "colors.h"
 #include "inputHandler.h"
 
+
+
 const int EXIT_BAD_INPUT =  1; //exit when input can't be parsed correctly
 const int EXIT_BAD_UNIT_TEST = 2; //exit when unit tests failed
 
 int main(int argc, char *argv[]) {
     quadraticEquation_t equation = BLANK_QUADRATIC_EQUATION;
-
+    printKvadr(&equation);
+    printKvadr(NULL);
+    MY_ASSERT(0, printHelp(); printHelp(););
+    solveEquation(NULL);
     cmdFlags_t flags = BLANK_FLAGS;
     if (parseCmdArgs(&flags, (unsigned) argc, argv) == BAD_EXIT) { //parsing flags from console args
         printf("Can't read cmd args\n");
@@ -30,16 +35,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (flags.help) { //printing help message
-        printf(GREEN_BKG "########################################################" RESET_C "\n"
-                " This program solves quadratic equation\n"
-                " Available cmd args:\n"
-                "   -h --help  Prints this message, ignores other flags\n"
-                "   -s         Silent mode, prints only essential info\n"
-                "   -u         Unit tests, runs built-in unit tests\n"
-                " After args you can type coefficients of equation\n"
-                " If coefficients can't be parsed, program will ask you to enter them from console\n"
-                " You should separate numbers with any space characters or end of lines\n"
-                GREEN_BKG "########################################################" RESET_C "\n");
+        printHelp();
         flags = BLANK_FLAGS; //--help ignores ALL other flags
     }
 

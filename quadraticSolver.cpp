@@ -13,7 +13,7 @@
 
 
 enum error solveEquation(quadraticEquation_t* equation) {
-    assert(equation);
+    MY_ASSERT(equation, return FAIL);//return BAEXIT
 
     double  a = equation->a,
             b = equation->b,
@@ -69,7 +69,7 @@ enum error solveQuadratic(quadraticEquation_t* equation) {
     if (isZero(D)) {            //D = 0
         equation->answer.code = ONE_ROOT;
         equation->answer.x1 = -b / (2*a);
-    } else if (D < 0) {
+    } else if (cmpDouble(D, 0) == -1) {
         equation->answer.code = ZERO_ROOTS;              //D < 0
         //printf("Equation can't be solved in R: D = %g < 0\n", D);
     } else {                            //D > 0

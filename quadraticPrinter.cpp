@@ -4,12 +4,12 @@
 
 #include "error.h"
 #include "quadrEquation.h"
-#include "quadraticPrinter.h"
 #include "colors.h"
+#include "quadraticPrinter.h"
 #include "utils.h"
 
 enum error printKvadr(const quadraticEquation_t* equation) {
-    assert(equation != NULL);
+    MY_ASSERT(equation, return FAIL);
     printf(YELLOW);
     int printedBefore = 0; //remembering if we printed something to put signs correctly
 
@@ -41,8 +41,8 @@ enum error printKvadr(const quadraticEquation_t* equation) {
 }
 
 
-void printAnswer(const quadraticEquation_t* equation) {
-    assert(equation);
+enum error printAnswer(const quadraticEquation_t* equation) {
+    MY_ASSERT(equation, return BAD_EXIT);
 
     switch(equation->answer.code) {
         case BLANK_ROOT:
@@ -65,6 +65,8 @@ void printAnswer(const quadraticEquation_t* equation) {
             break;
         default:
             printf("That's really bad :(\n");
+            return BAD_EXIT;
             break;
     }
+    return GOOD_EXIT;
 }

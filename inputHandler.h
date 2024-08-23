@@ -72,4 +72,9 @@ enum error flushScanfBufferHard();
 */
 enum error parseCmdArgs(cmdFlags_t* flags, unsigned int argc, char *argv[]);
 
+
+/*!
+    @brief prints help message
+*/
+void printHelp();
 #endif

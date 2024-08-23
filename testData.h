@@ -10,15 +10,15 @@ const unitTest_t testData[] = {
 */
         {
             {0, 0, 0, BLANK_SOLUTION},
-            {INF_ROOTS, 0, 0}
+            {INF_ROOTS, NAN, NAN}
         },
         {
             {0, 0, 2.43, BLANK_SOLUTION},
-            {ZERO_ROOTS, 0, 0}
+            {ZERO_ROOTS, NAN, NAN}
         },
         {
             {1, 0, 3, BLANK_SOLUTION},
-            {ZERO_ROOTS, 0, 0}
+            {ZERO_ROOTS, NAN, NAN}
         },
         {
             {1, 0, -16, BLANK_SOLUTION},
@@ -26,11 +26,11 @@ const unitTest_t testData[] = {
         },
         {
             {0, 2, 5, BLANK_SOLUTION},
-            {ONE_ROOT, -2.5, 0}
+            {ONE_ROOT, -2.5, NAN}
         },
         {
             {0, 54.234, 0, BLANK_SOLUTION},
-            {ONE_ROOT, 0, 0}
+            {ONE_ROOT, 0, NAN}
         },
         {
             {4, 2, 0, BLANK_SOLUTION},
@@ -38,7 +38,7 @@ const unitTest_t testData[] = {
         },
         {
             {NAN, NAN, INFINITY, BLANK_SOLUTION},
-            {BAD_INPUT, 0, 0}
+            {BAD_INPUT, NAN, NAN}
         }
 };
 
