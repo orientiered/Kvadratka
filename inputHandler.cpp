@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <assert.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -59,8 +58,8 @@ enum error flushScanfBufferHard() {
 
 
 enum error scanFromCmdArgs(quadraticEquation_t* equation, char *argv[]) {
-    assert(equation);
-    assert(argv);
+    MY_ASSERT(equation, return FAIL);
+    MY_ASSERT(argv, return FAIL);
 
     if (sscanf(*argv++, "%lf", &(equation->a)) != 1) {
         printf("Can't read first coefficient\n");
@@ -89,6 +88,9 @@ enum error parseCmdArgs(cmdFlags_t* flags, unsigned int argc, char *argv[]) {
             flags->silent = 1;
         } else if (strcmp(argv[flags->argPos], "-u") == 0) {
             flags->unitTest = 1;
+        } else if (strcmp(argv[flags->argPos], "-uf") == 0) {
+            flags->unitTestF =1;
+            flags->fileNamePos = ++flags->argPos;
         } else if (argc - flags->argPos == 3) {
             flags->scanCoeffs = 1;
             return GOOD_EXIT;

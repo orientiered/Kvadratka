@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "error.h"
 #include "quadrEquation.h"
@@ -30,6 +31,80 @@ enum error unitTesting(int silent) {
 
     #endif
     return GOOD_EXIT;
+}
+
+
+enum error unitTestingFile(const char name[], int silent) {
+    FILE* testsF = fopen(name, "r");
+    if (!testsF) {
+        printf("Can't read file %s\n", name);
+        return FAIL;
+    }
+
+    int testCount = 0;
+    if (fscanf(testsF, " %d ", &testCount) != 1) {
+        printf("Can't read number of tests\n");
+        return BAD_EXIT;
+    };
+
+    for (int testIndex = 0; testIndex < testCount; testIndex++) {
+        unitTest_t test = BLANK_TEST;
+        enum error readStatus = readUnitTest(testsF, &test);
+        if (readStatus != GOOD_EXIT) {
+            printf("Can't read test #%d\n", testIndex+1);
+            return readStatus;
+        }
+
+        if (runTest(test) != GOOD_EXIT) {
+            printf(RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
+            return BAD_EXIT;
+        }
+        else if (!silent) {
+            printf(GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
+        }
+    }
+    return GOOD_EXIT;
+}
+
+
+enum error readUnitTest(FILE* testsF, unitTest_t* test) {
+    MY_ASSERT(testsF, return FAIL);
+
+    const int MAX_LEN = 100;
+    char solutionStr[MAX_LEN] = {};
+    if (fscanf(testsF, " %lg %lg %lg %s %lg %lg",
+         &test->inputData.a, &test->inputData.b, &test->inputData.c,
+         solutionStr, &test->expectedData.x1, &test->expectedData.x2) != 6)
+         return BAD_EXIT;
+
+    if (parseSolutionCode(solutionStr, &test->expectedData.code) != GOOD_EXIT) {
+        printf("Can't parse solutionCode enum\n");
+        return BAD_EXIT;
+    }
+
+    return GOOD_EXIT;
+}
+
+
+enum error parseSolutionCode(const char solutionStr[], enum solutionCode* code) {
+    int tempCode = 0;
+    const int ENUM_SIZE = 6;
+    const char *literals[ENUM_SIZE] = \
+        {"BLANK_ROOT", "ZERO_ROOTS", "ONE_ROOT", "TWO_ROOTS", "INF_ROOTS", "BAD_INPUT"};
+
+    if (sscanf(solutionStr, " %d ", &tempCode) == 1) {
+        *code = (enum solutionCode) tempCode;
+        return GOOD_EXIT;
+    } else {
+        int counter = -1;
+        for (int i = 0; i < ENUM_SIZE; i++, counter++) {
+            if (!strcmp(solutionStr, literals[i])) {
+                *code = (enum solutionCode) counter;
+                return GOOD_EXIT;
+            }
+        }
+    }
+    return BAD_EXIT;
 }
 
 

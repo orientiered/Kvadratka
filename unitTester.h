@@ -10,17 +10,47 @@ typedef struct unitTest {
     solution_t expectedData;       //< Struct with expected solutions
 } unitTest_t;
 
+const unitTest_t BLANK_TEST = {BLANK_QUADRATIC_EQUATION, BLANK_SOLUTION};
+
 
 /*!
     @brief Runs unit-tests
 
-    @param[in] Flag: if 1 - unit testing should go silently, if 0 - print all messages
+    @param[in] silent: if 1 - unit testing should go silently, if 0 - print all messages
 
     @return error code
 
     Expects testData.h to be included
 */
 enum error unitTesting(int silent);
+
+
+/*!
+    @brief Runs unit testing; reads them from file on fly
+
+    @param[in] name Name of file with tests
+    @param[in] silent: if 1 - unit testing should go silently, if 0 - print all messages
+*/
+enum error unitTestingFile(const char name[], int silent);
+
+
+/*!
+    @brief Tries to read unit test from file
+
+    @param[in] testsF Pointer to file
+    @param[in] test Pointer to unitTest struct
+
+    @return Enum with error
+*/
+enum error readUnitTest(FILE* testsF, unitTest_t* test);
+
+
+/*!
+    @brief Tries to parse string with solutionCode enum
+
+    Can parse literals and numbers
+*/
+enum error parseSolutionCode(const char solutionStr[], enum solutionCode* code);
 
 
 /*!

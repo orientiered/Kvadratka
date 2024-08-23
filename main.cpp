@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -24,10 +23,7 @@ const int EXIT_BAD_UNIT_TEST = 2; //exit when unit tests failed
 
 int main(int argc, char *argv[]) {
     quadraticEquation_t equation = BLANK_QUADRATIC_EQUATION;
-    printKvadr(&equation);
-    printKvadr(NULL);
-    MY_ASSERT(0, printHelp(); printHelp(););
-    solveEquation(NULL);
+
     cmdFlags_t flags = BLANK_FLAGS;
     if (parseCmdArgs(&flags, (unsigned) argc, argv) == BAD_EXIT) { //parsing flags from console args
         printf("Can't read cmd args\n");
@@ -44,7 +40,10 @@ int main(int argc, char *argv[]) {
     }
 
     if (flags.unitTest && unitTesting(flags.silent) != GOOD_EXIT) {
-            exit(EXIT_BAD_UNIT_TEST);
+        exit(EXIT_BAD_UNIT_TEST);
+    }
+    if (flags.unitTestF && unitTestingFile(argv[flags.fileNamePos], flags.silent) != GOOD_EXIT) {
+        exit(EXIT_BAD_UNIT_TEST);
     }
 
     enum error scanResult = BLANK;

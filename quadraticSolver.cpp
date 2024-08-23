@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -35,9 +34,9 @@ enum error solveEquation(quadraticEquation_t* equation) {
     equation->answer.x2 = fixMinusZero(equation->answer.x2);
 
     if (equation->answer.code == ONE_ROOT || equation->answer.code == TWO_ROOTS )
-        assert(isfinite(equation->answer.x1));
+        MY_ASSERT(isfinite(equation->answer.x1), return FAIL);
     if (equation->answer.code == TWO_ROOTS)
-        assert(isfinite(equation->answer.x2));
+        MY_ASSERT(isfinite(equation->answer.x2), return FAIL);
 
     return GOOD_EXIT;
 }

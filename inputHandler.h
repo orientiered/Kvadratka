@@ -12,13 +12,15 @@ const int ASCII_SUB = 26;
 typedef struct cmdFlags {
     unsigned int silent: 1;     ///< Don't print anything except answer
     unsigned int unitTest: 1;   ///< Run unitTests before execution
+    unsigned int unitTestF: 1;   ///< Run unitTests from file
+    unsigned int fileNamePos;
     unsigned int help: 1;       ///< Print help
 
     unsigned int scanCoeffs: 1; ///< Indicates that program should try to parse cmd args as equation coeffs
     unsigned int argPos;        ///< Position in argv from which program will parse coeffs
 } cmdFlags_t;
 
-const cmdFlags_t BLANK_FLAGS = {0, 0, 0, 0, 0};
+const cmdFlags_t BLANK_FLAGS = {0, 0, 0, 0, 0, 0, 0};
 
 
 /*!
