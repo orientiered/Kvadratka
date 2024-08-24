@@ -61,17 +61,12 @@ enum error scanFromCmdArgs(quadraticEquation_t* equation, char *argv[]) {
     MY_ASSERT(equation, return FAIL);
     MY_ASSERT(argv, return FAIL);
 
-    if (sscanf(*argv++, "%lf", &(equation->a)) != 1) {
-        printf("Can't read first coefficient\n");
-        return BAD_EXIT;
-    }
-    if (sscanf(*argv++, "%lf", &(equation->b)) != 1) {
-        printf("Can't read second coefficient\n");
-        return BAD_EXIT;
-    }
-    if (sscanf(*argv++, "%lf", &(equation->c)) != 1) {
-        printf("Can't read third coefficient\n");
-        return BAD_EXIT;
+    double *coeffsArray[] = {&(equation->a), &(equation->b), &(equation->c)};
+    for (int i = 0; i < 3; ++i) {
+        if (sscanf(*argv++, "%lf", coeffsArray[i]) != 1) {
+            printf("Can't read #%d coefficient\n", i+1);
+            return BAD_EXIT;
+        }
     }
     return GOOD_EXIT;
 }
@@ -110,6 +105,7 @@ void printHelp() {
                 "   -h --help  Prints this message, ignores other flags\n"
                 "   -s         Silent mode, prints only essential info\n"
                 "   -u         Unit tests, runs built-in unit tests\n"
+                "   -uf        Unit tests from file, expects next argument to be name of file\n"
                 " After args you can type coefficients of equation\n"
                 " If coefficients can't be parsed, program will ask you to enter them from console\n"
                 " You should separate numbers with any space characters or end of lines\n"

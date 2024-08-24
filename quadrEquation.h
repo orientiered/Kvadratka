@@ -32,8 +32,8 @@ const solution_t BLANK_SOLUTION = {BLANK_ROOT, NAN, NAN};
 
 /// @brief Struct that stores coeffs and answers of quadratic equation
 typedef struct quadraticEquation {
-    double a, b, c;     //< Coefficients of quadratic polynomial
-    solution_t answer;  //< structure with exit code and answers
+    double a, b, c;     ///< Coefficients of quadratic polynomial
+    solution_t answer;  ///< structure with exit code and answers
 } quadraticEquation_t;
 
 const quadraticEquation_t BLANK_QUADRATIC_EQUATION = {NAN, NAN, NAN, BLANK_SOLUTION};

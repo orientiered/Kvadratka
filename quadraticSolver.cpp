@@ -11,6 +11,27 @@
 #include "utils.h"
 
 
+/*!
+    @brief solves linear equation
+
+    @param[in, out] equation Pointer to struct that holds coeffs and answers
+
+    @return Enum with error code
+*/
+static enum error solveLinear(quadraticEquation_t* equation);
+
+
+/*!
+    @brief solves quadratic equation (a != 0)
+
+    Note: function doesn't check a == o
+    @param[in, out] equation Pointer to struct that holds coeffs and answers
+
+    @return Enum with error code
+*/
+static enum error solveQuadratic(quadraticEquation_t* equation);
+
+
 enum error solveEquation(quadraticEquation_t* equation) {
     MY_ASSERT(equation, return FAIL);//return BAEXIT
 
@@ -42,7 +63,7 @@ enum error solveEquation(quadraticEquation_t* equation) {
 }
 
 
-enum error solveLinear(quadraticEquation_t* equation) {
+static enum error solveLinear(quadraticEquation_t* equation) {
     if (isZero(equation->b)) { //checking for zeros in coefficients;
         //b = 0
         if (isZero(equation->c)) { // 0 = 0
@@ -59,7 +80,7 @@ enum error solveLinear(quadraticEquation_t* equation) {
 }
 
 
-enum error solveQuadratic(quadraticEquation_t* equation) {
+static enum error solveQuadratic(quadraticEquation_t* equation) {
     double  a = equation->a,
             b = equation->b,
             c = equation->c;

@@ -1,7 +1,7 @@
 #ifndef TEST_DATA_INCLUDED
 #define TEST_DATA_INCLUDED
 
-const unitTest_t testData[] = {
+const unitTest_t internalTestData[] = {
 /*
         {                                                 unitTest_T
             {a, b, c, BLANK_SOLUTION},                    quadraticEquation_t
@@ -41,5 +41,7 @@ const unitTest_t testData[] = {
             {BAD_INPUT, NAN, NAN}
         }
 };
+
+const unsigned int internalTestSize = sizeof(internalTestData) / sizeof(unitTest_t);
 
 #endif

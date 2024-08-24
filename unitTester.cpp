@@ -11,14 +11,21 @@
 
 #include "testData.h"
 
+/*!
+    @brief Runs unit-tests
 
-enum error unitTesting(int silent) {
-    #ifndef TEST_DATA_INCLUDED
-        printf("Include test data\n");
-        return BAD_EXIT;
-    #else
-    const int testSize = sizeof(testData) / sizeof(unitTest_t);
+    @param[in] testData Array of unit tests
+    @param[in] testSize Number of tests in array
+    @param[in] silent: if 1 - unit testing should go silently, if 0 - print all messages
 
+    @return error code
+
+    Expects testData.h to be included
+*/
+static enum error unitTesting(const unitTest_t testData[], int testSize, int silent);
+
+
+static enum error unitTesting(const unitTest_t testData[], int testSize, int silent) {
     for (int testIndex = 0; testIndex < testSize; testIndex++) {
         if (runTest(testData[testIndex]) != GOOD_EXIT) {
             printf(RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
@@ -28,9 +35,16 @@ enum error unitTesting(int silent) {
             printf(GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
         }
     }
-
-    #endif
     return GOOD_EXIT;
+}
+
+
+enum error unitTestingInternal(int silent) {
+    #ifndef TEST_DATA_INCLUDED
+            printf("Include test data\n");
+            return FAIL;
+    #endif
+    return unitTesting(internalTestData, internalTestSize, silent);
 }
 
 
@@ -38,7 +52,6 @@ enum error unitTestingFile(const char name[], int silent) {
     FILE* testsF = fopen(name, "r");
     if (!testsF) {
         printf("Can't read file %s\n", name);
-        fclose(testsF);
         return FAIL;
     }
 
@@ -49,26 +62,29 @@ enum error unitTestingFile(const char name[], int silent) {
         return BAD_EXIT;
     };
 
-    for (int testIndex = 0; testIndex < testCount; testIndex++) {
-        unitTest_t test = BLANK_TEST;
-        enum error readStatus = readUnitTest(testsF, &test);
-        if (readStatus != GOOD_EXIT) {
-            printf("Can't read test #%d\n", testIndex+1);
-            fclose(testsF);
-            return readStatus;
-        }
+    unitTest_t *testData = (unitTest_t*) calloc(testCount, sizeof(unitTest_t));
+    if (!testData) {
+        printf(RED "Can't allocate memory for tests\n" RESET_C);
+        fclose(testsF);
+        return FAIL;
+    }
 
-        if (runTest(test) != GOOD_EXIT) {
-            printf(RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
+    for (int i = 0; i < testCount; i++) {
+        if (readUnitTest(testsF, testData+i) != GOOD_EXIT) {
             fclose(testsF);
             return BAD_EXIT;
         }
-        else if (!silent) {
-            printf(GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
-        }
     }
     fclose(testsF);
+
+    if (unitTesting(testData, testCount, silent) != GOOD_EXIT) {
+        free(testData);
+        return BAD_EXIT;
+    }
+    free(testData);
+
     return GOOD_EXIT;
+
 }
 
 
@@ -153,4 +169,42 @@ enum error runTest(unitTest_t test) {
         }
     }
     return STRANGE_EXIT;
+}
+
+
+enum error unitTestingFile_DEPRECATED(const char name[], int silent) {
+    FILE* testsF = fopen(name, "r");
+    if (!testsF) {
+        printf("Can't read file %s\n", name);
+        fclose(testsF);
+        return FAIL;
+    }
+
+    int testCount = 0;
+    if (fscanf(testsF, " %d ", &testCount) != 1) {
+        printf("Can't read number of tests\n");
+        fclose(testsF);
+        return BAD_EXIT;
+    };
+
+    for (int testIndex = 0; testIndex < testCount; testIndex++) {
+        unitTest_t test = BLANK_TEST;
+        enum error readStatus = readUnitTest(testsF, &test);
+        if (readStatus != GOOD_EXIT) {
+            printf("Can't read test #%d\n", testIndex+1);
+            fclose(testsF);
+            return readStatus;
+        }
+
+        if (runTest(test) != GOOD_EXIT) {
+            printf(RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
+            fclose(testsF);
+            return BAD_EXIT;
+        }
+        else if (!silent) {
+            printf(GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
+        }
+    }
+    fclose(testsF);
+    return GOOD_EXIT;
 }
