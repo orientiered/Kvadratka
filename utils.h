@@ -67,4 +67,22 @@ int cmpDouble(const double a, const double b);
 */
 int isZero(const double a);
 
+/*!
+    @brief Checks double on NaN
+
+    @return 1 if number is NaN, 0 else
+
+    Uses bit operations and casts number to unsigned long long
+*/
+int myIsNan(double a);
+
+
+/*!
+    @brief Checks double on INFINITY
+
+    @return 1 if number is +-INFINITY, 0 else
+
+    Uses bit operations and casts number to unsigned long long
+*/
+int myIsInf(double a);
 #endif

@@ -44,7 +44,7 @@ enum error unitTestingInternal(int silent);
     If something goes wrong, it will print warning message and return FAIL or BAD_EXIT. <br>
     In other cases it will return GOOD_EXIT.
 */
-error unitTestingFile(const char name[], int silent);
+enum error unitTestingFile(const char name[], int silent);
 
 
 /*!

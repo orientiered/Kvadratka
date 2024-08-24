@@ -28,11 +28,11 @@ static enum error unitTesting(const unitTest_t testData[], int testSize, int sil
 static enum error unitTesting(const unitTest_t testData[], int testSize, int silent) {
     for (int testIndex = 0; testIndex < testSize; testIndex++) {
         if (runTest(testData[testIndex]) != GOOD_EXIT) {
-            printf(RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
+            fprintf(stderr, RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
             return BAD_EXIT;
         }
         else if (!silent) {
-            printf(GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
+            fprintf(stderr, GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
         }
     }
     return GOOD_EXIT;
@@ -41,7 +41,7 @@ static enum error unitTesting(const unitTest_t testData[], int testSize, int sil
 
 enum error unitTestingInternal(int silent) {
     #ifndef TEST_DATA_INCLUDED
-            printf("Include test data\n");
+            fprintf(stderr, "Include test data\n");
             return FAIL;
     #endif
     return unitTesting(internalTestData, internalTestSize, silent);
@@ -51,20 +51,20 @@ enum error unitTestingInternal(int silent) {
 enum error unitTestingFile(const char name[], int silent) {
     FILE* testsF = fopen(name, "r");
     if (!testsF) {
-        printf("Can't read file %s\n", name);
+        fprintf(stderr, "Can't read file %s\n", name);
         return FAIL;
     }
 
     int testCount = 0;
     if (fscanf(testsF, " %d ", &testCount) != 1) {
-        printf("Can't read number of tests\n");
+        fprintf(stderr, "Can't read number of tests\n");
         fclose(testsF);
         return BAD_EXIT;
     };
 
     unitTest_t *testData = (unitTest_t*) calloc(testCount, sizeof(unitTest_t));
     if (!testData) {
-        printf(RED "Can't allocate memory for tests\n" RESET_C);
+        fprintf(stderr, RED "Can't allocate memory for tests\n" RESET_C);
         fclose(testsF);
         return FAIL;
     }
@@ -99,7 +99,7 @@ enum error readUnitTest(FILE* testsF, unitTest_t* test) {
          return BAD_EXIT;
 
     if (parseSolutionCode(solutionStr, &test->expectedData.code) != GOOD_EXIT) {
-        printf("Can't parse solutionCode enum\n");
+        fprintf(stderr, "Can't parse solutionCode enum\n");
         return BAD_EXIT;
     }
 
@@ -135,7 +135,7 @@ enum error runTest(unitTest_t test) {
 
     if (result.code != test.expectedData.code) { //checking exit code first
         printKvadr(&test.inputData); //print equation
-        printf(RED_BKG "Exit code doesn't match: " GREEN_BKG "expected %d, " CYAN_BKG "got %d" RESET_C "\n",
+        fprintf(stderr, RED_BKG "Exit code doesn't match: " GREEN_BKG "expected %d, " CYAN_BKG "got %d" RESET_C "\n",
                 test.expectedData.code, result.code);
         return BAD_EXIT;
     } else {
@@ -148,7 +148,7 @@ enum error runTest(unitTest_t test) {
             case ONE_ROOT:
                 if(cmpDouble(result.x1, test.expectedData.x1) != 0) {
                     printKvadr(&test.inputData); //print equation
-                    printf(RED_BKG "Answers doesn't match: " GREEN_BKG "expected x = %lg, " CYAN_BKG "got x = %lg" RESET_C "\n",
+                    fprintf(stderr, RED_BKG "Answers doesn't match: " GREEN_BKG "expected x = %lg, " CYAN_BKG "got x = %lg" RESET_C "\n",
                     test.expectedData.x1, result.x1);
                     return BAD_EXIT;
                 } else
@@ -158,7 +158,7 @@ enum error runTest(unitTest_t test) {
                     SWAP_DOUBLE(result.x1, result.x2);
                 if (cmpDouble(result.x1, test.expectedData.x1) != 0 || cmpDouble(result.x2, test.expectedData.x2) != 0) {
                     printKvadr(&test.inputData); //print equation
-                    printf(RED_BKG "Answers doesn't match: " GREEN_BKG "expected x1 = %lg, x2 = %lg" RESET_C "\n"
+                    fprintf(stderr, RED_BKG "Answers doesn't match: " GREEN_BKG "expected x1 = %lg, x2 = %lg" RESET_C "\n"
                             CYAN_BKG "Got x1 = %lg, x2 = %lg" RESET_C "\n",
                             test.expectedData.x1, test.expectedData.x2, result.x1, result.x2);
                     return BAD_EXIT;
@@ -175,14 +175,13 @@ enum error runTest(unitTest_t test) {
 enum error unitTestingFile_DEPRECATED(const char name[], int silent) {
     FILE* testsF = fopen(name, "r");
     if (!testsF) {
-        printf("Can't read file %s\n", name);
-        fclose(testsF);
+        fprintf(stderr, "Can't read file %s\n", name);
         return FAIL;
     }
 
     int testCount = 0;
     if (fscanf(testsF, " %d ", &testCount) != 1) {
-        printf("Can't read number of tests\n");
+        fprintf(stderr, "Can't read number of tests\n");
         fclose(testsF);
         return BAD_EXIT;
     };
@@ -191,18 +190,18 @@ enum error unitTestingFile_DEPRECATED(const char name[], int silent) {
         unitTest_t test = BLANK_TEST;
         enum error readStatus = readUnitTest(testsF, &test);
         if (readStatus != GOOD_EXIT) {
-            printf("Can't read test #%d\n", testIndex+1);
+            fprintf(stderr, "Can't read test #%d\n", testIndex+1);
             fclose(testsF);
             return readStatus;
         }
 
         if (runTest(test) != GOOD_EXIT) {
-            printf(RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
+            fprintf(stderr, RED_BKG "UNIT TESTING FAILED on test %d" RESET_C "\n", testIndex + 1);
             fclose(testsF);
             return BAD_EXIT;
         }
         else if (!silent) {
-            printf(GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
+            fprintf(stderr, GREEN_BKG "Test #%d passed" RESET_C "\n", testIndex+1);
         }
     }
     fclose(testsF);

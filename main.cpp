@@ -1,5 +1,5 @@
-///@file
-///Program for solving quadratic equation
+/// @file
+/// @brief Program for solving quadratic equation
 
 #include <stdio.h>
 #include <math.h>
@@ -16,21 +16,48 @@
 #include "colors.h"
 #include "inputHandler.h"
 
-
+#include "utils.h"
 const int EXIT_BAD_INPUT =  1;      //exit when input can't be parsed correctly
 const int EXIT_BAD_UNIT_TEST = 2;   //exit when unit tests failed
 
 
+/*!
+    @brief Prints help message and basic info about program
+
+    @param[in] flags Pointer to flags (cmdFlags_t*)
+
+    Prints help if -h flag is activated, <br>
+    Basic info about program if -s flag isn't activated
+*/
 void initPrint(cmdFlags_t* flags);
 
 
-void unitTester(cmdFlags_t* flags, char *argv[]);
+/*!
+    @brief Runs unit tests
+
+    @param[in] flags Pointer to flags
+    @param[in] argv Arguments of cmd
+
+    Will run unit test from internal array or from specified in argv file if flags -u or -uf are activated
+*/
+enum error unitTester(cmdFlags_t* flags, char *argv[]);
 
 
-void solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation, char *argv[]);
+/*!
+    @brief Contains all logic to solve quadratic equation if coefficients are given in argv
+
+    This function is made only to make main simpler
+*/
+enum error solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation, char *argv[]);
 
 
-void solveLoop(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation);
+/*!
+    @brief Loop with all logic to solve quadartic equation many times
+
+    Reads coefficients from console, solves equation, prints result, asks to solve again <br>
+    This function is made only to make main simpler
+*/
+enum error solveLoop(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation);
 
 
 int main(int argc, char *argv[]) {
@@ -40,15 +67,17 @@ int main(int argc, char *argv[]) {
         flags = BLANK_FLAGS;
     }
 
-    initPrint(&flags);    //prints messages on start
-    unitTester(&flags, argv);   //manages unit tests
+    initPrint(&flags); //prints messages on start
+    if (unitTester(&flags, argv) != GOOD_EXIT) //manages unit tests
+        return 0;
 
     quadraticEquation_t equation = BLANK_QUADRATIC_EQUATION;
     enum error scanResult = BLANK;
 
-    solveCmd(flags, &scanResult, &equation, argv); //solves equation if it's coeffs were entered from cmd args
-
-    solveLoop(flags, &scanResult, &equation); //loop that solves equation with coeffs from console
+    if (solveCmd(flags, &scanResult, &equation, argv) != GOOD_EXIT) //solves equation if it's coeffs were entered from cmd args
+        return 0;
+    if (solveLoop(flags, &scanResult, &equation) != GOOD_EXIT) //loop that solves equation with coeffs from console
+        return 0;
 
     return 0;
 }
@@ -66,40 +95,41 @@ void initPrint(cmdFlags_t* flags) {
 }
 
 
-void unitTester(cmdFlags_t* flags, char *argv[]) {
+enum error unitTester(cmdFlags_t* flags, char *argv[]) {
     #ifdef UNIT_TESTER_H
-    if (flags->unitTest) {
-        if (unitTestingInternal(flags->silent) != GOOD_EXIT)
-            exit(EXIT_BAD_UNIT_TEST);
+    if (flags->unitTest && unitTestingInternal(flags->silent) != GOOD_EXIT) {
+        return BAD_EXIT;
     }
 
     if (flags->unitTestF && unitTestingFile(argv[flags->fileNamePos], flags->silent) != GOOD_EXIT) {
-        exit(EXIT_BAD_UNIT_TEST);
+        return BAD_EXIT;
     }
     #else
         if (flags->unitTest || flags->unitTestF)
-            printf("Unit tests are not supported in this build\n");
+            fprintf(stderr, "Unit tests are not supported in this build\n");
     #endif
+    return GOOD_EXIT;
 }
 
 
-void solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation, char *argv[]) {
+enum error solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation, char *argv[]) {
     if (flags.scanCoeffs) { //scanning from cmd args
         *scanResult = scanFromCmdArgs(equation, argv+flags.argPos);
         if (*scanResult != GOOD_EXIT) { ///in this case we don't want to read again
             if (!flags.silent)
                 printf(RED_BKG "Wrong input format" RESET_C "\n");
-            exit(EXIT_BAD_INPUT);
+            return BAD_EXIT;
         }
         if (!flags.silent)
             printKvadr(equation);
         solveEquation(equation);
         printAnswer(equation);
     }
+    return GOOD_EXIT;
 }
 
 
-void solveLoop(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation) {
+enum error solveLoop(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation) {
     bool readFromConsole = !flags.scanCoeffs;
 
     while (readFromConsole) {
@@ -112,7 +142,7 @@ void solveLoop(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* eq
         if (*scanResult != GOOD_EXIT) {
             if (!flags.silent)
                 printf(RED_BKG "Scan failed: encountered Ctrl+D, Ctrl+Z or file ended" RESET_C "\n");
-            exit(EXIT_BAD_INPUT);
+            return BAD_EXIT;
         }
 
         if (!flags.silent)
@@ -131,4 +161,5 @@ void solveLoop(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* eq
             readFromConsole = false;
 
     }
+    return GOOD_EXIT;
 }
