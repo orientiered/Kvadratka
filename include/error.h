@@ -21,7 +21,7 @@
             if (res == BAD_EXIT || res == FAIL)                                                                         \
             {                                                                                                           \
                 fprintf(stderr, "Error. File: %s, function: %s, line: %d\n", __FILE__, __FUNCTION__, __LINE__);         \
-                return res;                                                                                             \
+                return res;                                                                                            \
             }                                                                                                           \
         }while(0)
 
