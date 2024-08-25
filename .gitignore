@@ -3,6 +3,4 @@ main.out
 /docs
 /doxDocs
 /obj
-compile.bat
-test.txt
-cmpl.bat
+/.vscode
