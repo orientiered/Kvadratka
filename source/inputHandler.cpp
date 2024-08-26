@@ -10,6 +10,7 @@
 enum error scanFromConsole(quadraticEquation_t* equation) {
     MY_ASSERT(equation, return FAIL;);
 
+    const char coeffsNames[3] = {'a', 'b', 'c'};
     double *coeffsArray[] = {&(equation->a), &(equation->b), &(equation->c)};
     int index = 0;
 
@@ -28,7 +29,7 @@ enum error scanFromConsole(quadraticEquation_t* equation) {
                 PROPAGATE_ERROR(flushScanfBuffer());
             } else {
                 ungetc(c, stdin);
-                printf("Last scanned number: %lg\n", *coeffsArray[index]);
+                printf("%c = %lg\n", coeffsNames[index], *coeffsArray[index]);
                 index++;
             }
         }

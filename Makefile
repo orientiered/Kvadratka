@@ -1,7 +1,22 @@
 #Almost universal makefile
 #This version is made for Windows
 #To compile on linux uncomment rm and mkdir, delete 'del' and long IF with mkdir
+CMD_DEL_LINUX = rm -rf ./$(OBJDIR)/*.o ./$(OBJDIR)/*.d
+CMD_DEL_WIN   = del .\$(OBJDIR)\*.o .\$(OBJDIR)\*.d
+CMD_MKDIR_LINUX = @mkdir -p $(OBJDIR)
+CMD_MKDIR_WIN = @IF exist "$(OBJDIR)/" ( echo "" ) ELSE ( mkdir "$(OBJDIR)/" )
 
+#WIN for windows, LINUX for linux
+SYSTEM = WIN
+ifeq ($(SYSTEM),WIN)
+	CMD_DEL = $(CMD_DEL_WIN)
+	CMD_MKDIR = $(CMD_MKDIR_WIN)
+else
+	CMD_DEL = $(CMD_DEL_LINUX)
+	CMD_MKDIR = $(CMD_MKDIR_LINUX)
+endif
+
+#compilier
 ifeq ($(origin CC),default)
 	CC=g++
 endif
@@ -9,11 +24,13 @@ endif
 #Name of compiled executable
 NAME=main.exe
 #Name of directory where .o and .d files will be stored
-OBJDIR = obj
+OBJDIR = build
 #Name of directory with headers
 INCLUDEDIR = include
 #Name of directory with .cpp
 SRCDIR = source
+#Name of directory where doxygen documentation will be generated
+DOXYDIR = doxDocs
 
 #Note: ALL cpps in source dir will be compiled
 #Getting all cpps
@@ -37,39 +54,44 @@ override CFLAGS += -I./$(INCLUDEDIR)
 
 #Main target to compile executable
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $^ -o $@
+
 
 #Automatic target to compile object files
 $(OBJS) : $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
-	@IF exist "$(OBJDIR)/" ( echo "" ) ELSE ( mkdir "$(OBJDIR)/" )
-#	mkdir -p $(OBJDIR)
+	$(CMD_MKDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 #Idk how it works, but is uses compiler preprocessor to automatically generate
 #.d files with included headears that make can use
 $(DEPS) : $(OBJDIR)/%.d : $(SRCDIR)/%.cpp
-	@IF exist "$(OBJDIR)/" ( echo "" ) ELSE ( mkdir "$(OBJDIR)/" )
-#	mkdir -p $(OBJDIR)
+	$(CMD_MKDIR)
 	$(CC) -E $(CFLAGS) $< -MM -MT $(@:.d=.o) > $@
-
 
 .PHONY:init
 init:
-	IF exist "$(OBJDIR)/" ( echo "" ) ELSE ( mkdir "$(OBJDIR)/" )
-#	mkdir -p $(OBJDIR)
+	$(CMD_MKDIR)
 
 #Deletes all object and .d files
+
 .PHONY:clean
 clean:
-#	rm ./$(OBJDIR)/*.o
-	del .\$(OBJDIR)\*.o .\$(OBJDIR)\*.d
+	$(CMD_DEL)
 
-#This 'if' should deactivate generation of .d files on clean target but it doesn't work
-#So I commented it out
+
+.PHONY:doxygen
+doxygen:
+ifeq ($(SYSTEM), WIN)
+	@IF exist "$(DOXYDIR)/" ( echo "" ) ELSE ( mkdir "$(DOXYDIR)/" )
+else
+	@mkdir -p $(DOXYDIR)
+endif
+	doxygen Doxyfile
+
+
 NODEPS = clean
 
 #Includes make dependencies
-#ifeq (0, $(words, $(findstring $(MAKECMDGOALS),$(NODEPS))))
+ifeq (0, $(words $(findstring $(MAKECMDGOALS), $(NODEPS))))
 include $(DEPS)
-#endif
-
+endif
