@@ -59,7 +59,18 @@ enum error solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_
 */
 enum error solveLoop(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation);
 
+/*!
+    @brief Main function
 
+    1. Reads arguments from argv to flags variable<br>
+    2. Prints welcome messages <br>
+    3. Runs unit tests based on flags
+    4. Tries to read coefficients from argv (they're first priority) and solve equation <br>
+    5. Runs loop, where <br>
+        1. Reads coefficients from console <br>
+        2. Solves equation and prints answer <br>
+        3. Asks if user want to solve it again <br>
+*/
 int main(int argc, char *argv[]) {
     cmdFlags_t flags = BLANK_FLAGS;
     if (parseCmdArgs(&flags, (unsigned) argc, argv) == BAD_EXIT) { //parsing flags from console args

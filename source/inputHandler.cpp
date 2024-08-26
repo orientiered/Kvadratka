@@ -28,7 +28,7 @@ enum error scanFromConsole(quadraticEquation_t* equation) {
                 PROPAGATE_ERROR(flushScanfBuffer());
             } else {
                 ungetc(c, stdin);
-                printf("Last scanned number: %lg, total scanned: %d\n", *coeffsArray[index], index+1);
+                printf("Last scanned number: %lg\n", *coeffsArray[index]);
                 index++;
             }
         }

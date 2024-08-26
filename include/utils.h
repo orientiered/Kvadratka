@@ -85,4 +85,19 @@ int myIsNan(double a);
     Uses bit operations and casts number to unsigned long long
 */
 int myIsInf(double a);
+
+
+/*!
+    @brief Swaps two variables of any type
+
+    @param[in] a Pointer to first variable
+    @param[in] b Pointer to second variable
+    @param[in] size Size of variables in bytes
+
+    Variables a and b must be the same type <br>
+    BUT you can use it to swap anything, for example <br>
+    two arrays <br>
+    Under the hood it swaps values byte by byte
+*/
+void swap(void *a, void *b, size_t size);
 #endif

@@ -34,8 +34,10 @@
 
     If expr is false (=0), macro will print file, function and line where assertion was made <br>
     ALso prints expression <br>
-    Prints to stderr
+    Prints to stderr <br>
+    You can deactivate assert by defining NDEBUG
 */
+#ifndef NDEBUG
 #define MY_ASSERT(expr, run)                                                                                                    \
         do {                                                                                                                    \
             if (!(expr)) {                                                                                                      \
@@ -46,6 +48,9 @@
                 } while (0);                                                                                                    \
             }                                                                                                                   \
         }while(0)
+#else
+#define MY_ASSERT(expr, run) ;
+#endif
 
 
 /// @brief Error codes which can be used in many functions

@@ -45,6 +45,17 @@ int myIsNan(const double a) {
 }
 
 
+void swap(void *a, void *b, size_t size) {
+    char *ac = (char*) a, *bc = (char*) b;
+    char c = 0;
+    while (size--) {
+        c = *ac;
+        *ac++ = *bc;
+        *bc++ = c;
+    }
+}
+
+
 double fixMinusZero(const double num) {
     return (isZero(num)) ? fabs(num) : num;
 }
