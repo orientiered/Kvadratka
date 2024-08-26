@@ -49,7 +49,7 @@
             }                                                                                                                   \
         }while(0)
 #else
-#define MY_ASSERT(expr, run) ;
+#define MY_ASSERT(expr, run)
 #endif
 
 

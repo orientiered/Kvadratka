@@ -6,15 +6,15 @@
 
 
 /*!
- *  @brief solves equation, prints some comments and returns struct with answers
+ *  @brief solves quadratic equation
  *
  *  @param[in, out] equation Pointer to struct that holds coeffs and answers
  *
  *  @returns Enum with error code
  *  In current implementation returns fail only if input is nan of inf
  *
- *  Solves quadratic equation in form ax^2 + bx + c = 0
- *  Prints comments, if there aren't any roots. Also fixes -0 in answer
+ *  Solves quadratic equation in form ax^2 + bx + c = 0 <br>
+ *  Fixes -0 in answer
 */
 enum error solveEquation(quadraticEquation_t* equation);
 
