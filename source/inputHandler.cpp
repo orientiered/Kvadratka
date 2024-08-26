@@ -2,6 +2,8 @@
 #include <ctype.h>
 #include <string.h>
 
+//#define DEBUG_PRINTS
+
 #include "colors.h"
 #include "error.h"
 #include "quadrEquation.h"
@@ -76,6 +78,7 @@ enum error scanFromCmdArgs(quadraticEquation_t* equation, char *argv[]) {
 enum error parseCmdArgs(cmdFlags_t* flags, unsigned int argc, char *argv[]) {
     flags->argPos = 1;
     while (flags->argPos < argc) {
+        DBG_PRINTF("%s\n", argv[flags->argPos]);
         if (strcmp(argv[flags->argPos], "-h") == 0 ||
             strcmp(argv[flags->argPos], "--help") == 0) {
             flags->help = 1;

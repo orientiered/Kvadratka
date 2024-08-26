@@ -51,7 +51,7 @@ enum error unitTestingInternal(int silent) {
 enum error unitTestingFile(const char name[], int silent) {
     FILE* testsF = fopen(name, "r");
     if (!testsF) {
-        fprintf(stderr, "Can't read file %s\n", name);
+        fprintf(stderr, "Can't read file \"%s\"\n", name);
         return FAIL;
     }
 

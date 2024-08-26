@@ -37,6 +37,7 @@
     Prints to stderr <br>
     You can deactivate assert by defining NDEBUG
 */
+//#define NDEBUG
 #ifndef NDEBUG
 #define MY_ASSERT(expr, run)                                                                                                    \
         do {                                                                                                                    \
@@ -52,6 +53,21 @@
 #define MY_ASSERT(expr, run)
 #endif
 
+
+/*!
+    @brief Macro that prints everything in stderr. Acts as printf
+
+    Activated by defining DEBUG_PRINTS, defines DBG_PRINTF(...) macro
+*/
+//#define DEBUG_PRINTS
+#ifdef DEBUG_PRINTS
+#define DBG_PRINTF(...)                     \
+    do {                                    \
+        fprintf(stderr, __VA_ARGS__);       \
+    } while (0)
+#else
+#define DBG_PRINTF(...)
+#endif
 
 /// @brief Error codes which can be used in many functions
 enum error {
