@@ -71,8 +71,8 @@
 
 /// @brief Error codes which can be used in many functions
 enum error {
+    GOOD_EXIT = 0,          ///< Function worked correctly and all is as expected
     BAD_EXIT,           ///< Function handled fail inside it correctly
-    GOOD_EXIT,          ///< Function worked correctly and all is as expected
     STRANGE_EXIT,       ///< Exit in condinitions that can't be reached
     FAIL,               ///< Emergency exit
     BLANK               ///< Empty error

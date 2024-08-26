@@ -123,7 +123,7 @@ enum error solveLoop(cmdFlags_t flags, enum error* scanResult, quadraticEquation
 
         flushScanfBufferHard();
         printf(CYAN_BKG "Would you like to solve another equation?" RESET_C "\n"
-              "y/n\n");
+              "y/N\n");
         int c = getchar();
         if (tolower(c) == 'y') {
             flushScanfBufferHard();

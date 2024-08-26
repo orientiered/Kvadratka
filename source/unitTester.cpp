@@ -148,18 +148,21 @@ enum error runTest(unitTest_t test) {
             case ONE_ROOT:
                 if(cmpDouble(result.x1, test.expectedData.x1) != 0) {
                     printKvadr(&test.inputData); //print equation
-                    fprintf(stderr, RED_BKG "Answers doesn't match: " GREEN_BKG "expected x = %lg, " CYAN_BKG "got x = %lg" RESET_C "\n",
+                    fprintf(stderr, RED_BKG "Answers doesn't match: " RESET_C "\n" GREEN_BKG
+                    "expected x = %lg," RESET_C "\n" CYAN_BKG
+                    "     got x = %lg" RESET_C "\n",
                     test.expectedData.x1, result.x1);
                     return BAD_EXIT;
                 } else
                     return GOOD_EXIT;
             case TWO_ROOTS:
                 if (result.x1 > result.x2)
-                    SWAP_DOUBLE(result.x1, result.x2);
+                    swap(&result.x1, &result.x2, sizeof(result.x1));
                 if (cmpDouble(result.x1, test.expectedData.x1) != 0 || cmpDouble(result.x2, test.expectedData.x2) != 0) {
                     printKvadr(&test.inputData); //print equation
-                    fprintf(stderr, RED_BKG "Answers doesn't match: " GREEN_BKG "expected x1 = %lg, x2 = %lg" RESET_C "\n"
-                            CYAN_BKG "Got x1 = %lg, x2 = %lg" RESET_C "\n",
+                    fprintf(stderr, RED_BKG "Answers doesn't match: " RESET_C "\n" GREEN_BKG
+                    "expected x1 = %lg, x2 = %lg" RESET_C "\n" RED_BKG
+                    "Got      x1 = %lg, x2 = %lg" RESET_C "\n",
                             test.expectedData.x1, test.expectedData.x2, result.x1, result.x2);
                     return BAD_EXIT;
                 } else
