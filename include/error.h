@@ -11,7 +11,7 @@
 
     @param[in] expr Expression of function of type enum error
 
-    If expr is BAD_EXIT of FAIL, macro will print file, function and line where expression occured <br>
+    If expr is BAD_EXIT of FAIL, macro will print file, function and line where expression ocurred <br>
     Then it will return expr <br>
     Prints to stderr
 */
@@ -71,9 +71,9 @@
 
 /// @brief Error codes which can be used in many functions
 enum error {
-    GOOD_EXIT = 0,          ///< Function worked correctly and all is as expected
+    GOOD_EXIT = 0,      ///< Function worked correctly and all is as expected
     BAD_EXIT,           ///< Function handled fail inside it correctly
-    STRANGE_EXIT,       ///< Exit in condinitions that can't be reached
+    STRANGE_EXIT,       ///< Exit in conditions that can't be reached
     FAIL,               ///< Emergency exit
     BLANK               ///< Empty error
 };

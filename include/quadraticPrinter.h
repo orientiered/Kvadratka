@@ -12,7 +12,7 @@
     @returns Enum with error code
     In current implementation return is always GOOD_EXIT
 
-    Skips zero-coefs, and doesn't print 1
+    Skips zero-coeffs, and doesn't print 1
     Example: 0 1 -5
     => x - 5 = 0
 */

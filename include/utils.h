@@ -6,7 +6,7 @@
 
 
 /*!
-    @brief Macro that swaps two numbres of specified type
+    @brief Macro that swaps two numbers of specified type
 
     @param[in] a First number
     @param[in] b Second number

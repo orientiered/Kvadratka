@@ -34,7 +34,7 @@ enum error solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_
 
 
 /*!
-    @brief Loop with all logic to solve quadartic equation many times
+    @brief Loop with all logic to solve quadratic equation many times
 
     Reads coefficients from console, solves equation, prints result, asks to solve again <br>
     This function is made only to make main simpler

@@ -24,7 +24,7 @@ const cmdFlags_t BLANK_FLAGS = {0, 0, 0, 0, 0, 0, 0}; /// Empty initializer for 
 
 
 /*!
-    @brief Scans coeffs of quadratic eqaution from console
+    @brief Scans coeffs of quadratic equation from console
 
     @param[in, out] equation Pointer to struct that holds coeffs and answers
 
