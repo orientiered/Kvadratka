@@ -9,11 +9,11 @@
 
     @param[in] equation Pointer to struct with coeffs
 
-    @returns Enum with error code
+    @returns Enum with error code <br>
     In current implementation return is always GOOD_EXIT
 
-    Skips zero-coeffs, and doesn't print 1
-    Example: 0 1 -5
+    Skips zero-coeffs, and doesn't print 1 <br>
+    Example: 0 1 -5 <br>
     => x - 5 = 0
 */
 enum error printKvadr(const quadraticEquation_t* equation);

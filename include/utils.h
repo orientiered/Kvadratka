@@ -20,7 +20,7 @@
             }while(0)
 
 
-const double EPSILON = 1e-10; //constant for comparing floats
+const double EPSILON = 1e-9; //constant for comparing floats
 
 
 /*!
@@ -41,6 +41,7 @@ double fixMinusZero(double num); //fix -0
     @return -1 if a < b, 0 if a == b, 1 if a > b
 
     @see EPSILON
+
     Using EPSILON constant to compare
 */
 int cmpDouble(const double a, const double b);
