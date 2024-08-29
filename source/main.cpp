@@ -86,7 +86,7 @@ enum error unitTester(cmdFlags_t* flags, char *argv[]) {
 enum error solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation, char *argv[]) {
     if (flags.scanCoeffs) { //scanning from cmd args
         *scanResult = scanFromCmdArgs(equation, argv+flags.argPos);
-        if (*scanResult != GOOD_EXIT) { ///in this case we don't want to read again
+        if (*scanResult != GOOD_EXIT) { //in this case we don't want to read again
             if (!flags.silent)
                 printf(RED_BKG "Wrong input format" RESET_C "\n");
             return BAD_EXIT;
