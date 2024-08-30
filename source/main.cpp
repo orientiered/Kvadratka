@@ -15,6 +15,7 @@
 #include "unitTester.h"
 #include "colors.h"
 #include "inputHandler.h"
+#include "argvProcessor.h"
 #include "utils.h"
 #include "main.h"
 
@@ -32,20 +33,21 @@
         3. Asks if user want to solve it again <br>
 */
 int main(int argc, char *argv[]) {
-    cmdFlags_t flags = BLANK_FLAGS;
-    if (parseCmdArgs(&flags, (unsigned) argc, argv) == BAD_EXIT) { //parsing flags from console args
+    argVal_t flags[argsSize] = {};
+    initFlags(flags);
+    if (processArgs(flags, argc, argv) == BAD_EXIT) { //parsing flags from console args
         printf("Can't read cmd args\n");
-        flags = BLANK_FLAGS;
+        initFlags(flags);
     }
 
-    initPrint(&flags); //prints messages on start
-    if (unitTester(&flags, argv) != GOOD_EXIT) //manages unit tests
+    initPrint(flags); //prints messages on start
+    if (unitTester(flags) != GOOD_EXIT) //manages unit tests
         return 0;
 
     quadraticEquation_t equation = BLANK_QUADRATIC_EQUATION;
     enum error scanResult = BLANK;
 
-    if (solveCmd(flags, &scanResult, &equation, argv) != GOOD_EXIT) //solves equation if it's coeffs were entered from cmd args
+    if (solveCmd(flags, &scanResult, &equation) != GOOD_EXIT) //solves equation if it's coeffs were entered from cmd args
         return 0;
     if (solveLoop(flags, &scanResult, &equation) != GOOD_EXIT) //loop that solves equation with coeffs from console
         return 0;
@@ -54,44 +56,44 @@ int main(int argc, char *argv[]) {
 }
 
 
-void initPrint(cmdFlags_t* flags) {
-    if (flags->help) { //printing help message
-        printHelp();
-        *flags = BLANK_FLAGS; //--help ignores ALL other flags
+void initPrint(argVal_t flags[]) {
+    if (flags[HELP].set) { //printing help message
+        printHelpMessage();
+        initFlags(flags); //--help ignores ALL other flags
+        return;
     }
 
-    if (!flags->silent) { //if not silent mode
+    if (!flags[SILENT].set) { //if not silent mode
         printf(CYAN "# Quadratic equation solver\n# orientiered 2024" RESET_C "\n");
     }
 }
 
 
-enum error unitTester(cmdFlags_t* flags, char *argv[]) {
+enum error unitTester(argVal_t flags[]) {
     #ifdef UNIT_TESTER_H
-    if (flags->unitTest && unitTestingInternal(flags->silent) != GOOD_EXIT) {
-        return BAD_EXIT;
-    }
-
-    if (flags->unitTestF && unitTestingFile(argv[flags->fileNamePos], flags->silent) != GOOD_EXIT) {
-        return BAD_EXIT;
+    if (flags[UNIT].set) {
+        if (!flags[FILENAME].set)
+            unitTestingInternal(flags[SILENT].set);
+        else
+            unitTestingFile(flags[FILENAME].val._string, flags[SILENT].set);
     }
     #else
-        if (flags->unitTest || flags->unitTestF)
+        if (flags[UNIT].set)
             fprintf(stderr, "Unit tests are not supported in this build\n");
     #endif
     return GOOD_EXIT;
 }
 
 
-enum error solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation, char *argv[]) {
-    if (flags.scanCoeffs) { //scanning from cmd args
-        *scanResult = scanFromCmdArgs(equation, argv+flags.argPos);
+enum error solveCmd(argVal_t flags[], enum error* scanResult, quadraticEquation_t* equation) {
+    if (flags[COEFFS].set) { //scanning from cmd args
+        *scanResult = scanFromCmdArgs(equation, flags[COEFFS].val._arrayPtr);
         if (*scanResult != GOOD_EXIT) { //in this case we don't want to read again
-            if (!flags.silent)
+            if (!flags[SILENT].set)
                 printf(RED_BKG "Wrong input format" RESET_C "\n");
             return BAD_EXIT;
         }
-        if (!flags.silent)
+        if (!flags[SILENT].set)
             printKvadr(equation);
         solveEquation(equation);
         printAnswer(equation);
@@ -100,23 +102,23 @@ enum error solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_
 }
 
 
-enum error solveLoop(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation) {
-    bool readFromConsole = !flags.scanCoeffs;
+enum error solveLoop(argVal_t flags[], enum error* scanResult, quadraticEquation_t* equation) {
+    bool readFromConsole = !flags[COEFFS].set;
 
     while (readFromConsole) {
         if (*scanResult != GOOD_EXIT) {
-            if (!flags.silent)
+            if (!flags[SILENT].set)
                 printf(YELLOW_BKG "Enter coefficients of equation ax^2 + bx + c = 0" RESET_C "\n");
             *scanResult = scanFromConsole(equation);
         }
 
         if (*scanResult != GOOD_EXIT) {
-            if (!flags.silent)
+            if (!flags[SILENT].set)
                 printf(RED_BKG "Scan failed: encountered Ctrl+D, Ctrl+Z or file ended" RESET_C "\n");
             return BAD_EXIT;
         }
 
-        if (!flags.silent)
+        if (!flags[SILENT].set)
             printKvadr(equation);
         solveEquation(equation);
         printAnswer(equation);

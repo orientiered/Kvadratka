@@ -6,23 +6,22 @@
 /*!
     @brief Prints help message and basic info about program
 
-    @param[in] flags Pointer to flags (cmdFlags_t*)
+    @param[in] flags Array of flags
 
     Prints help if -h flag is activated, <br>
     Basic info about program if -s flag isn't activated
 */
-void initPrint(cmdFlags_t* flags);
+void initPrint(argVal_t flags[]);
 
 
 /*!
     @brief Runs unit tests
 
-    @param[in] flags Pointer to flags
-    @param[in] argv Arguments of cmd
+    @param[in] flags Array of flags
 
-    Will run unit test from internal array or from specified in argv file if flags -u or -uf are activated
+    Will run unit test from internal array or from specified in argv file if flags -u or -u and -f are activated
 */
-enum error unitTester(cmdFlags_t* flags, char *argv[]);
+enum error unitTester(argVal_t flags[]);
 
 
 /*!
@@ -30,7 +29,7 @@ enum error unitTester(cmdFlags_t* flags, char *argv[]);
 
     This function is made only to make main simpler
 */
-enum error solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation, char *argv[]);
+enum error solveCmd(argVal_t flags[], enum error* scanResult, quadraticEquation_t* equation);
 
 
 /*!
@@ -39,6 +38,6 @@ enum error solveCmd(cmdFlags_t flags, enum error* scanResult, quadraticEquation_
     Reads coefficients from console, solves equation, prints result, asks to solve again <br>
     This function is made only to make main simpler
 */
-enum error solveLoop(cmdFlags_t flags, enum error* scanResult, quadraticEquation_t* equation);
+enum error solveLoop(argVal_t flags[], enum error* scanResult, quadraticEquation_t* equation);
 
 #endif
